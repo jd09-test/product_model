@@ -1,0 +1,67 @@
+1.  Use the Neo4j MCP tool and display the number of domain products linked through class ports and dynamic class ports for each VOD.
+Group the result by each relationship (port), showing for every VOD and each of its ports/relationships how many domain products are present in latest version.
+
+MATCH (cv:ClassVod)-[:ClassVod_HAS_RELATIONSHIP_ObjectRelationship]->(rel:ObjectRelationship)-[:ObjectRelationship_HAS_RELATIONSHIP_DOMAIN_ObjectRelationshipDomain]->(domain:ObjectRelationshipDomain)-[:ObjectRelationshipDomain_REFERS_TO_ProductVod]->(pv:ProductVod) WHERE rel.SUB_OBJECT_TYPE_CODE IN ['Port','DynPort'] RETURN rel.SUB_OBJECT_TYPE_CODE AS relationship_type, cv.VERSIONED_OBJECT_DEFINITION_NAME AS vod_name, rel.SUB_OBJECT_NAME AS port_name, COUNT(DISTINCT pv) AS num_domain_products ORDER BY relationship_type,vod_name
+
+Display number of domain products in class and dynamic class ports/relationships
+group by rel_name ,vod_name
+For each vod
+
+2. use neo4j mcp server 
+check schema again
+show class vod which has class or dynamic class relationships for class vod which are created without any class specified in sub_object_class_id
+
+"MATCH (c:ClassVod)-[:ClassVod_HAS_RELATIONSHIP_ObjectRelationship]->(r:ObjectRelationship) WHERE (r.SUB_OBJECT_TYPE_CODE = 'Port' OR r.SUB_OBJECT_TYPE_CODE = 'DynPort') AND (r.SUB_OBJECT_CLASS_ID IS NULL OR r.SUB_OBJECT_CLASS_ID = '') RETURN DISTINCT c.ROW_ID AS class_vod_id, c.VERSIONED_OBJECT_DEFINITION_NAME AS class_name"
+
+3.
+use neo4j mcp server 
+check schema again
+show class vod which has class or dynamic class relationships for class vod which has only one  rel domain in  relationship in latest version
+
+"MATCH (v:ClassVod)-[:ClassVod_HAS_VERSION_VodVersion]->(ver:VodVersion) WHERE ver.CURRENT_VERSION_FLAG = 'Y' WITH v, ver.VERSION_NUMBER AS version MATCH (v)-[:ClassVod_HAS_RELATIONSHIP_ObjectRelationship]->(rel:ObjectRelationship) WHERE rel.SUB_OBJECT_TYPE_CODE IN ['Port', 'DynPort'] AND toFloat(rel.FIRST_VERSION) <= version AND toFloat(rel.LAST_VERSION) >= version WITH v, version, rel MATCH (rel)-[:ObjectRelationship_HAS_RELATIONSHIP_DOMAIN_ObjectRelationshipDomain]->(domain:ObjectRelationshipDomain) WHERE toFloat(domain.FIRST_VERSION) <= version AND toFloat(domain.LAST_VERSION) >= version WITH v, version, rel, count(domain) AS domain_cnt WHERE domain_cnt = 1 RETURN v.ROW_ID AS class_row_id, v.VERSIONED_OBJECT_DEFINITION_NAME AS class_name, rel.ROW_ID AS rel_row_id, rel.SUB_OBJECT_TYPE_CODE, version"
+4.
+use neo4j mcp server 
+check schema again
+show class vod which has product relationship and a class defined too
+
+MATCH (vod:ClassVod)-[:ClassVod_HAS_RELATIONSHIP_ObjectRelationship]->(rel:ObjectRelationship) WHERE rel.SUB_OBJECT_TYPE_CODE = 'Product' AND rel.SUB_OBJECT_CLASS_ID IS NOT NULL AND rel.SUB_OBJECT_CLASS_ID <> '' MATCH (ver:VodVersion) WHERE ver.VERSIONED_OBJECT_DEFINITION_ID = vod.ROW_ID AND ver.CURRENT_VERSION_FLAG = 'Y' AND toFloat(rel.FIRST_VERSION) <= ver.VERSION_NUMBER AND ver.VERSION_NUMBER <= toFloat(rel.LAST_VERSION) RETURN vod.VERSIONED_OBJECT_DEFINITION_NAME AS VOD, rel.SUB_OBJECT_NAME AS RelationshipName, rel.SUB_OBJECT_CLASS_ID AS ClassId ORDER BY vod.VERSIONED_OBJECT_DEFINITION_NAME, rel.SUB_OBJECT_NAME
+
+5.
+use neo4j mcp server 
+check schema again
+show class vod which has duplicate Active Constraints rule (i.e RULE_SPECIFICATION
+will be same) in latest version
+
+MATCH (c:ClassVod) WITH c MATCH (v:VodVersion) WHERE v.VERSIONED_OBJECT_DEFINITION_ID = c.ROW_ID AND v.CURRENT_VERSION_FLAG = 'Y'WITH c, toFloat(v.VERSION_NUMBER) AS eff_version MATCH (r:ConstraintRule)   WHERE r.VERSIONED_OBJECT_DEFINITION_ID = c.ROW_ID    AND r.ACTIVE_FLAG = 'Y'    AND toFloat(r.FIRST_VERSION) <= eff_version    AND toFloat(r.LAST_VERSION) >= eff_version WITH c, eff_version, r.RULE_SPECIFICATION AS rule_spec, count(r) AS cnt, collect(r.ROW_ID) AS rule_ids WHERE cnt > 1 ORDER BY c.ROW_ID RETURN c.ROW_ID AS class_row_id, eff_version, rule_spec AS duplicate_rule_specification, cnt AS num_duplicates, rule_ids
+
+
+6
+use neo4j tools and read the schema again
+Provide a list of all products (considering only the latest version) in which "ACT_IC_SP5" is included as part of their relationship or relationship domain.
+
+7
+Provide a list of all products (considering only the latest version) in which products which are inactive in there latest version are included as part of their relationship or relationship domain.
+// Find all products whose relationships/domains reference any latest-version-inactive product
+MATCH (inactive:ProductVod)-[:ProductVod_HAS_VERSION_VodVersion]->(inactiveVer:VodVersion)
+WHERE inactiveVer.CURRENT_VERSION_FLAG = 'Y' AND inactiveVer.ACTIVE_FLAG = 'N'
+WITH collect(inactive.VOD_NAME) AS inactive_names
+
+MATCH (p:ProductVod)
+OPTIONAL MATCH (ver:VodVersion {VOD_ID: p.ROW_ID, CURRENT_VERSION_FLAG: 'Y'})
+WHERE ver IS NOT NULL
+WITH p, ver, toFloat(ver.VERSION_NUMBER) AS latestVersion, inactive_names
+
+OPTIONAL MATCH (p)-[:ProductVod_HAS_RELATIONSHIP_ObjectRelationship]->(r:ObjectRelationship)
+  WHERE toFloat(r.FIRST_VERSION) <= latestVersion AND latestVersion <= toFloat(r.LAST_VERSION)
+
+OPTIONAL MATCH (r)-[:ObjectRelationship_REFERS_TO_ProductVod]->(subp:ProductVod)
+
+OPTIONAL MATCH (r)-[:ObjectRelationship_HAS_RELATIONSHIP_DOMAIN_ObjectRelationshipDomain]->(rd:ObjectRelationshipDomain)
+  WHERE toFloat(rd.FIRST_VERSION) <= latestVersion AND latestVersion <= toFloat(rd.LAST_VERSION)
+
+OPTIONAL MATCH (rd)-[:ObjectRelationshipDomain_REFERS_TO_ProductVod]->(domsubp:ProductVod)
+
+WITH p, collect(DISTINCT subp.VOD_NAME) AS relnames, collect(DISTINCT domsubp.VOD_NAME) AS domainnames, inactive_names
+WHERE any(n IN inactive_names WHERE n IN relnames OR n IN domainnames)
+RETURN DISTINCT p.VOD_NAME AS product_name
+ORDER BY product_name

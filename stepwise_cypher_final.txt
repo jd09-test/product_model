@@ -1,0 +1,32 @@
+/* 
+Corrected Cypher: For each Class, per Port/DynPort relationship, count how many domain relationships exist for the class in latest version, using field-based joins.
+*/
+
+/* Step 1: Gather each ClassVod's latest version */
+MATCH (c:ClassVod)
+WITH c
+MATCH (ver:VodVersion)
+  WHERE ver.VOD_ID = c.ROW_ID AND ver.CURRENT_VERSION_FLAG = 'Y'
+WITH c, toFloat(ver.VERSION_NUMBER) AS latest_version
+
+/* Step 2: Join to ObjectRelationship (Port/DynPort), versioned, join via c.OBJECT_NUMBER */
+MATCH (rel:ObjectRelationship)
+  WHERE rel.SUB_OBJECT_TYPE_CODE IN ['Port', 'DynPort']
+    AND rel.SUB_OBJECT_CLASS_ID = c.OBJECT_NUMBER
+    AND toFloat(rel.FIRST_VERSION) <= latest_version
+    AND toFloat(rel.LAST_VERSION) >= latest_version
+
+/* Step 3: Join to ObjectRelationshipDomain, join via ORIGINAL_ID, filter for version */
+OPTIONAL MATCH (domain:ObjectRelationshipDomain)
+  WHERE domain.PARENT_RELATIONSHIP_ID = rel.ORIGINAL_ID
+    AND toFloat(domain.FIRST_VERSION) <= latest_version
+    AND toFloat(domain.LAST_VERSION) >= latest_version
+
+/* Step 4: Return class, relationship, and count of valid domains per relationship */
+RETURN 
+  c.ROW_ID AS class_id,
+  c.VOD_NAME AS class_name,
+  rel.ORIGINAL_ID AS relationship_original_id,
+  rel.SUB_OBJECT_TYPE_CODE AS relationship_type,
+  COUNT(domain) AS num_domains
+ORDER BY class_name, relationship_type, relationship_original_id;
