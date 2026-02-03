@@ -805,7 +805,7 @@
             "name": "PromotionPricing",
             "label": "PromotionPricing",
             "table": [
-                "S_PROM_PMTRX"
+                "S_PROM_PMTRX" 
             ],
             "properties": {
                 "PRI_TYPE_CD": "PRICING_TYPE_CODE",
@@ -1295,7 +1295,7 @@
             "from": "PromotionDefinition",
             "to": "PromotionMessages",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID"
+            "to_key": "PARENT_ROW_ID", "Promotion Id"
         },
         {
             "type": "JointWorkspace_HAS_TRANSLATION_JointWorkspaceTranslation",
@@ -1351,21 +1351,21 @@
             "from": "PromotionItem",
             "to": "PromotionItemTranslation",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID"
+            "to_key": "PARENT_ROW_ID",   "Promotion Item Id"
         },
         {
             "type": "PromotionItem_HAS_ATTRIBUTE_PromotionItemXA",
             "from": "PromotionItem",
             "to": "PromotionItemXA",
             "from_key": "ROW_ID",
-            "to_key": "PROMOTION_ITEM_ID"
+            "to_key": "PROMOTION_ITEM_ID" ,  "Promotion Item Attribute Id"
         },
         {
             "type": "PromotionItemXA_HAS_ATTRIBUTE_VAL_PromotionItemVal",
             "from": "PromotionItemXA",
             "to": "PromotionItemVal",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID"
+            "to_key": "PARENT_ROW_ID" , "Promotion Item Attribute Id"
         },
         {
             "type": "PromotionDefinition_HAS_CHARGE_PromotionCharge",
@@ -1386,14 +1386,14 @@
             "from": "PromotionDefinition",
             "to": "PromotionMergeSplit",
             "from_key": "ROW_ID",
-            "to_key": "PROMOTION_PRODUCT_ID"
+            "to_key": "PROMOTION_PRODUCT_ID"  , "Product Id"
         },
         {
             "type": "PromotionMergeSplit_HAS_MERGE_SPLIT_COMP_PromotionMergeSplitComp",
             "from": "PromotionMergeSplit",
             "to": "PromotionMergeSplitComp",
             "from_key": "ROW_ID",
-            "to_key": "OPERATION_ID"
+            "to_key": "OPERATION_ID" , "Merge Id"
         },
         {
             "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
@@ -1432,3 +1432,5 @@
         }
     ]
 }
+
+
