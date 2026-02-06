@@ -790,7 +790,7 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "PENALTY_CURCY_CD": "PENALTY_AMOUNT_CURRENCY_CODE",
                 "PENALTY_AMT": "PENALTY_AMOUNT",
-                "PROM_OPER_ID": "OPERATION_ID",
+                "PROM_OPER_ID": "PROMOTION_OPERATION_ID",
                 "MIN_QTY": "MINIMUM_QUANTITY",
                 
                 
@@ -805,7 +805,7 @@
             "name": "PromotionPricing",
             "label": "PromotionPricing",
             "table": [
-                "S_PROM_PMTRX" 
+                "S_PROM_PMTRX"
             ],
             "properties": {
                 "PRI_TYPE_CD": "PRICING_TYPE_CODE",
@@ -881,7 +881,7 @@
             ],
             "properties": {
                 "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG",
-                "PAR_PROD_ID": "PARENT_PRODUCT",
+                "PAR_PROD_ID": "PARENT_PRODUCT_ID",
                 "COMMIT_START_CD": "COMMIT_START_CODE",
                 "DURATION_CD": "DURATION_CODE",
                 "VLDTN_STATUS_CD": "VALIDATION_STATUS_CODE",
@@ -897,7 +897,7 @@
                 "DSP_PRORTD_CHG_FLG": "DISPLAY_PRORATED_CHARGE_FLAG",
                 "PERCENT_SELL": "PERCENT_TO_SELL",
                 "SPLIT_PRI_FLG": "SPLIT_MENU_PRICING_FLAG",
-                "PROD_ID": "PRODUCT",
+                "PROD_ID": "PRODUCT_ID",
                 "DISP_CMPNT_PRI_FLG": "DISPLAY_COMPONENT_PRICE_FLAG",
                 "EFF_END_DATE": "EFF_END_DATE",
                 "ROW_ID": "ROW_ID",
@@ -953,9 +953,9 @@
                 "ROW_ID": "ROW_ID",
                 "TERM_TMPL_ID": "TERM_TEMPLATE_ID",
                 "SEQ_NUM": "SEQUENCE_NUMBER",
-                "PROD_ID": "AGREEMENT_ID",
+                "PROD_ID": "PRODUCT_ID",
                 "NAME": "NAME",
-                "ASSOCIATE_PROD_ID": "PRODUCT_ID",
+                "ASSOCIATE_PROD_ID": "ASSOCIATE_PRODUCT_ID",
                 "SECTION_NUM": "SECTION_NUMBER"
             }
         }
@@ -1011,10 +1011,10 @@
             "to_key": "VOD_ID"
         },
         {
-            "type": "AttributeDefinition_HAS_VALUE_AttributeValue",
-            "from": "AttributeDefinition",
+            "type": "AttributeVod_HAS_VALUE_AttributeValue",
+            "from": "AttributeVod",
             "to": "AttributeValue",
-            "from_key": "VOD_ID",
+            "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
@@ -1058,6 +1058,13 @@
             "to": "ObjectDefinitionTranslation",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
+        },
+        {
+            "type": "ObjectDefinition_REFERS_TO_ClassVod",
+            "from": "ObjectDefinition",
+            "to": "ClassVod",
+            "from_key": "PARENT_VOD_ID",
+            "to_key": "OBJECT_NUMBER"
         },
         {
             "type": "ProductVod_HAS_RELATIONSHIP_ObjectRelationship",
@@ -1295,7 +1302,7 @@
             "from": "PromotionDefinition",
             "to": "PromotionMessages",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID", "Promotion Id"
+            "to_key": "PARENT_ROW_ID"
         },
         {
             "type": "JointWorkspace_HAS_TRANSLATION_JointWorkspaceTranslation",
@@ -1347,25 +1354,39 @@
             "to_key": "ROW_ID"
         },
         {
+            "type": "PromotionItem_HAS_ROOT_PromotionItem",
+            "from": "PromotionItem",
+            "to": "PromotionItem",
+            "from_key": "ROOT_PROMOTION_ITEM_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PromotionItem_HAS_PARENT_PromotionItem",
+            "from": "PromotionItem",
+            "to": "PromotionItem",
+            "from_key": "PARENT_PROMOTION_ITEM_ID",
+            "to_key": "ROW_ID"
+        },
+        {
             "type": "PromotionItem_HAS_TRANSLATION_PromotionItemTranslation",
             "from": "PromotionItem",
             "to": "PromotionItemTranslation",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID",   "Promotion Item Id"
+            "to_key": "PARENT_ROW_ID"
         },
         {
             "type": "PromotionItem_HAS_ATTRIBUTE_PromotionItemXA",
             "from": "PromotionItem",
             "to": "PromotionItemXA",
             "from_key": "ROW_ID",
-            "to_key": "PROMOTION_ITEM_ID" ,  "Promotion Item Attribute Id"
+            "to_key": "PROMOTION_ITEM_ID"
         },
         {
             "type": "PromotionItemXA_HAS_ATTRIBUTE_VAL_PromotionItemVal",
             "from": "PromotionItemXA",
             "to": "PromotionItemVal",
             "from_key": "ROW_ID",
-            "to_key": "PARENT_ROW_ID" , "Promotion Item Attribute Id"
+            "to_key": "PARENT_ROW_ID"
         },
         {
             "type": "PromotionDefinition_HAS_CHARGE_PromotionCharge",
@@ -1375,38 +1396,52 @@
             "to_key": "PROMOTION_ID"
         },
         {
-            "type": "PromotionItem_HAS_PRICING_PromotionPricing",
-            "from": "PromotionItem",
+            "type": "PromotionDefinition_HAS_PRICING_PromotionPricing",
+            "from": "PromotionDefinition",
             "to": "PromotionPricing",
-            "from_key": "PROMOTION_ID",
+            "from_key": "ROW_ID",
             "to_key": "PROMOTION_ID"
+        },
+        {
+            "type": "PromotionPricing_REFERS_TO_ProductDefinition",
+            "from": "PromotionPricing",
+            "to": "ProductDefinition",
+            "from_key": "PRODUCT_ID",
+            "to_key": "ROW_ID"
         },
         {
             "type": "PromotionDefinition_HAS_MERGE_SPLIT_PromotionMergeSplit",
             "from": "PromotionDefinition",
             "to": "PromotionMergeSplit",
             "from_key": "ROW_ID",
-            "to_key": "PROMOTION_PRODUCT_ID"  , "Product Id"
+            "to_key": "PROMOTION_PRODUCT_ID"
         },
         {
             "type": "PromotionMergeSplit_HAS_MERGE_SPLIT_COMP_PromotionMergeSplitComp",
             "from": "PromotionMergeSplit",
             "to": "PromotionMergeSplitComp",
             "from_key": "ROW_ID",
-            "to_key": "OPERATION_ID" , "Merge Id"
+            "to_key": "PROMOTION_OPERATION_ID"
         },
         {
-            "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
-            "from": "PromotionUpgrade",
-            "to": "PromotionDefinition",
-            "from_key": "PRODUCT",
+            "type": "PromotionMergeSplitComp_REFERS_TO_ProductDefinition",
+            "from": "PromotionMergeSplitComp",
+            "to": "ProductDefinition",
+            "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
         },
         {
             "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
             "from": "PromotionUpgrade",
             "to": "PromotionDefinition",
-            "from_key": "PARENT_PRODUCT",
+            "from_key": "PRODUCT_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
+            "from": "PromotionUpgrade",
+            "to": "PromotionDefinition",
+            "from_key": "PARENT_PRODUCT_ID",
             "to_key": "ROW_ID"
         },
         {
@@ -1421,7 +1456,14 @@
             "from": "PromotionDefinition",
             "to": "PromotionTerm",
             "from_key": "ROW_ID",
-            "to_key": "AGREEMENT_ID"
+            "to_key": "PRODUCT_ID"
+        },
+        {
+            "type": "PromotionTerm_REFERS_TO_ProductDefinition",
+            "from": "PromotionTerm",
+            "to": "ProductDefinition",
+            "from_key": "ASSOCIATE_PRODUCT_ID",
+            "to_key": "ROW_ID"
         },
         {
             "type": "PromotionDefinition_HAS_PARENT_PromotionDefinition",
@@ -1432,5 +1474,3 @@
         }
     ]
 }
-
-
