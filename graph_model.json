@@ -419,8 +419,8 @@
             }
         },
         {
-            "name": "Resource",
-            "label": "Resource",
+            "name": "Resources",
+            "label": "Resources",
             "table": [
                 "S_ISS_OBJ_RSRC"
             ],
@@ -1165,16 +1165,16 @@
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_RESOURCE_Resource",
+            "type": "ProductVod_HAS_RESOURCE_Resources",
             "from": "ProductVod",
-            "to": "Resource",
+            "to": "Resources",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_RESOURCE_Resource",
+            "type": "ClassVod_HAS_RESOURCE_Resources",
             "from": "ClassVod",
-            "to": "Resource",
+            "to": "Resources",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
