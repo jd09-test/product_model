@@ -69,17 +69,17 @@
 
 The `ObjectRelationship` entity has a property called `SUB_OBJECT_TYPE_CODE` that determines the type of relationship it represents. There are three supported relationship types:
 
-1. **Product-Product Relationship**
+1. **Product Relationship**
    - "SUB_OBJECT_PRODUCT_ID" contains reference to Product
    - Identified by: `SUB_OBJECT_TYPE_CODE = "Product"`
    - Represents a relationship between two product entities.
 
-2. **Port-Class Relationship**
+2. **Class Relationship**
    - "SUB_OBJECT_CLASS_ID" contains reference to class
    - Identified by: `SUB_OBJECT_TYPE_CODE = "Port"`
    - Represents a relationship between a product and a class (port or class-level association).
 
-3. **DynPort - Dynamic Class Relationship**
+3. **Dynamic Class Relationship**
    - "SUB_OBJECT_CLASS_ID" contains reference to class
    - Identified by: `SUB_OBJECT_TYPE_CODE = "DynPort"`
    - Represents a dynamic (runtime or configurable) relationship between class entities.
