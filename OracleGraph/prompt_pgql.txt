@@ -1,0 +1,35 @@
+use pqgl mcp tool
+list the products in there latest version which have a relationship of type "product" and class  is also poplated from same relationship
+
+SELECT DISTINCT
+  product_name,
+  product_object_number,
+  product_version_number
+FROM GRAPH_TABLE(
+  "catalog_graph"
+  MATCH (p IS PRODUCTVOD)
+        -[pv IS PRODUCTVOD_HAS_VERSION_VODVERSION]->(ver IS VODVERSION),
+        (p)-[pr IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]->(rel IS OBJECTRELATIONSHIP),
+        (rel)-[rprod IS PRODUCTRELATION_REFERS_TO_PRODUCTVOD]->(subp IS PRODUCTVOD),
+        (rel)-[rcls  IS OBJECTRELATIONSHIP_REFERS_TO_CLASSVOD]->(c IS CLASSVOD)
+  COLUMNS(
+    p.VOD_NAME AS product_name,
+    p.OBJECT_NUMBER AS product_object_number,
+    ver.VERSION_NUMBER AS product_version_number,
+    ver.CURRENT_VERSION_FLAG AS current_version_flag,
+    rel.SUB_OBJECT_TYPE_CODE AS sub_object_type_code,
+    rel.SUB_OBJECT_PRODUCT_ID AS sub_object_product_object_number,
+    rel.SUB_OBJECT_CLASS_ID AS sub_object_class_object_number,
+    rel.FIRST_VERSION AS rel_first_version,
+    rel.LAST_VERSION AS rel_last_version
+  )
+)
+WHERE current_version_flag = 'Y'
+  AND sub_object_type_code = 'Product'
+  AND sub_object_product_object_number IS NOT NULL
+  AND sub_object_class_object_number IS NOT NULL
+  AND rel_first_version <= product_version_number
+  AND (rel_last_version IS NULL OR product_version_number <= rel_last_version)
+ORDER BY product_name
+
+
