@@ -1452,6 +1452,13 @@
             "to": "PRODUCTDEFINITION",
             "from_key": "ASSOCIATE_PRODUCT_ID",
             "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONITEM_DOMAIN_PRODUCTVOD",
+            "from": "PROMOTIONITEM",
+            "to": "PRODUCTVOD",
+            "from_key": "SUB_OBJECT_VOD_NUMBER",
+            "to_key": "OBJECT_NUMBER"
         }
     ]
 }

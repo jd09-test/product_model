@@ -54,7 +54,7 @@ def write_pgql_schema(vertices: List[Dict], edges: List[Dict], filename: str, fu
         f.write(" VERTEX TABLES (\n")
         for i, v in enumerate(vertices):
             # Use the vertex view name so each label can filter a single table differently
-            table_name = f"\"{schema}\".\"{_vertex_view_name(v.get('label') or v.get('type'))}\""
+            table_name = f"\"{_vertex_view_name(v.get('label') or v.get('type'))}\""
             label = v.get("label") or v["type"]
             prop_list = ", ".join(f'"{p}"' for p in v.get("properties", {}).values())
             # Use ROW_ID or ID as key if present
@@ -78,7 +78,7 @@ def write_pgql_schema(vertices: List[Dict], edges: List[Dict], filename: str, fu
         # Use the same relationship list from the full model to ensure exact key names
         rels = full_model.get("relationships", [])
         for i, rel in enumerate(rels):
-            edge_table = f"\"{schema}\".\"{rel['from'].upper()}\" AS \"{_edge_view_name(rel['type'])}\""
+            edge_table = f"\"{rel['from'].upper()}\" AS \"{_edge_view_name(rel['type'])}\""
             label = rel["type"]
             from_label = rel["from"].upper()
             to_label = rel["to"].upper()
@@ -114,15 +114,15 @@ def generate_pgqlgraph(
     )
 
     cfg = load_config(config_path)
-    schema = cfg["TARGET_SCHEMA"]
+    schema = "ADMIN"
 
     TARGET_CONFIG = {
-    "user": cfg["TARGET_USER"],
-    "password": cfg["TARGET_PASSWORD"],
-    "dsn": cfg["TARGET_DSN"],
-    "config_dir": cfg["TARGET_WALLET_DIR"],
-    "wallet_location": cfg["TARGET_WALLET_DIR"],
-    "wallet_password": cfg["TARGET_WALLET_PASSWORD"]
+    "user": cfg["PGQL_USER"],
+    "password": cfg["PGQL_PASSWORD"],
+    "dsn": cfg["PGQL_DSN"],
+    "config_dir": cfg["PGQL_CONFIG_DIR"],
+    "wallet_location": cfg["PGQL_WALLET_LOCATION"],
+    "wallet_password": cfg["PGQL_WALLET_PASSWORD"]
 }
 
     model = load_graph_model(json_path)
