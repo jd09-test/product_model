@@ -54,7 +54,7 @@ def write_pgql_schema(vertices: List[Dict], edges: List[Dict], filename: str, fu
         f.write(" VERTEX TABLES (\n")
         for i, v in enumerate(vertices):
             # Use the vertex view name so each label can filter a single table differently
-            table_name = f"\"{schema}\".\"{_vertex_view_name(v.get('label') or v.get('type'))}\""
+            table_name = f"\"{_vertex_view_name(v.get('label') or v.get('type'))}\""
             label = v.get("label") or v["type"]
             prop_list = ", ".join(f'"{p}"' for p in v.get("properties", {}).values())
             # Use ROW_ID or ID as key if present
@@ -78,7 +78,7 @@ def write_pgql_schema(vertices: List[Dict], edges: List[Dict], filename: str, fu
         # Use the same relationship list from the full model to ensure exact key names
         rels = full_model.get("relationships", [])
         for i, rel in enumerate(rels):
-            edge_table = f"\"{schema}\".\"{rel['from'].upper()}\" AS \"{_edge_view_name(rel['type'])}\""
+            edge_table = f"\"{rel['from'].upper()}\" AS \"{_edge_view_name(rel['type'])}\""
             label = rel["type"]
             from_label = rel["from"].upper()
             to_label = rel["to"].upper()
@@ -175,7 +175,7 @@ def main():
     parser = argparse.ArgumentParser(description="Oracle 26AI Property Graph DDL generator")
     parser.add_argument("--graph_model", default="graph_model.json", help="Input graph model JSON file")
     parser.add_argument("--pgql_out", default="pgql_schema.sql", help="Output PGQL DDL file")
-    parser.add_argument("--graph_name", default="catalog_graph", help="Name of the property graph to create")
+    parser.add_argument("--graph_name", default="product_model", help="Name of the property graph to create")
     parser.add_argument("--config", default="config.json", help="Path to config JSON with Oracle connection and schema")
     # --apply is deprecated; script now prompts interactively after DDL generation
     parser.add_argument("--apply", action="store_true", help="[Deprecated] Execute PGQL DDL without prompt (will be ignored)")
