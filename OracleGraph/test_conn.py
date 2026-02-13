@@ -13,24 +13,30 @@
 =============================================================
 """
 
+import json
 import time
 import traceback
+from typing import Dict
+
+# -----------------------------
+# Config helpers (loaded at runtime via --config)
+# -----------------------------
+def load_config(config_path: str) -> Dict:
+    with open(config_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+cfg = load_config("config.json")
+
+
 
 CONFIG = {
-    "user":            "ADMIN",
-    "password":        "Cxpassword@123",
-    "dsn": (
-        "(description=(retry_count=20)(retry_delay=3)"
-        "(address=(protocol=tcps)(port=1522)"
-        "(host=adb.us-phoenix-1.oraclecloud.com))"
-        "(connect_data=(service_name=zo9pvg9f3zd89xb_graphstudiocheck1_high.adb.oraclecloud.com))"
-        "(security=(ssl_server_dn_match=yes)))"
-    ),
-    "config_dir":      "/Users/darshanjaju/Wallet_graphstudiocheck1",
-    "wallet_location": "/Users/darshanjaju/Wallet_graphstudiocheck1",
-    "wallet_password": "Asdfg@12345",
+    "user": cfg["PGQL_USER"],
+    "password": cfg["PGQL_PASSWORD"],
+    "dsn": cfg["PGQL_DSN"],
+    "config_dir": cfg["PGQL_CONFIG_DIR"],
+    "wallet_location": cfg["PGQL_WALLET_LOCATION"],
+    "wallet_password": cfg["PGQL_WALLET_PASSWORD"]
 }
-
 
 def get_conn():
     import oracledb

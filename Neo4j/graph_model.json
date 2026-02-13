@@ -1342,6 +1342,13 @@
             "to_key": "ROW_ID"
         },
         {
+            "type": "PROMOTIONITEM_POINTS_TO_PRODUCTVOD",
+            "from": "PROMOTIONITEM",
+            "to": "PRODUCTVOD",
+            "from_key": "PRODUCT_ID",
+            "to_key": "OBJECT_NUMBER"
+        },
+        {
             "type": "PROMOTIONITEM_HAS_ROOT_PROMOTIONITEM",
             "from": "PROMOTIONITEM",
             "to": "PROMOTIONITEM",
