@@ -2,6 +2,9 @@ import oracledb
 import cx_Oracle
 import json
 
+LAST_UPDATED_FILTER_DATE = "15-02-26"  # DD-MM-YY format
+LAST_UPDATED_FILTER_FORMAT = "DD-MM-YY"
+
 def log(msg):
     print(msg)
 
@@ -212,6 +215,15 @@ def main():
         return " AND ".join(clauses)
 
     def build_select_sql(node, schema):
+
+        def apply_last_updated_filter(where_clause, date_column):
+            if not date_column:
+                return where_clause
+            date_filter = f"{date_column} >= TO_DATE('{LAST_UPDATED_FILTER_DATE}', '{LAST_UPDATED_FILTER_FORMAT}')"
+            if where_clause:
+                return f"{where_clause} AND {date_filter}"
+            return date_filter
+
         def col_alias_pairs(properties):
             return [f'{col} AS "{alias}"' for col, alias in properties.items()]
         if len(node["table"]) == 1:
@@ -220,6 +232,10 @@ def main():
             sql = f"SELECT {cols} FROM {schema}.{tbl}"
             if "filter" in node:
                 where_clause = parse_filter(node["filter"])
+                where_clause = apply_last_updated_filter(where_clause, "LAST_UPD")
+            else:
+                where_clause = apply_last_updated_filter('', "LAST_UPD")
+            if where_clause:
                 sql += f" WHERE {where_clause}"
             print(sql)
             return sql
@@ -230,6 +246,10 @@ def main():
             sql = f"SELECT {cols} FROM {schema}.{tbl1} JOIN {schema}.{tbl2} ON {left}={right}"
             if "filter" in node:
                 where_clause = parse_filter(node["filter"])
+                where_clause = apply_last_updated_filter(where_clause, "LAST_UPD")
+            else:
+                where_clause = apply_last_updated_filter('', "LAST_UPD")
+            if where_clause:
                 sql += f" WHERE {where_clause}"
             print(sql)
             return sql
