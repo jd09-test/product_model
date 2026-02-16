@@ -237,6 +237,7 @@ def main():
 
     def migrate_node_data(node, src_conn, tgt_conn, schema=SOURCE_SCHEMA, batch_size=1000):
         tgt_cols = list(node['properties'].values())
+        pk_col = node['properties'].get('ROW_ID')
         sql = build_select_sql(node, schema)
         src_cur = src_conn.cursor()
         src_cur.execute(sql)
@@ -244,14 +245,35 @@ def main():
         log(f"Migrating {len(rows)} row(s) from node {node['name']} ...")
         tgt_cur = tgt_conn.cursor()
         insert_cols = ', '.join(tgt_cols)
-        pholders = ', '.join([':' + str(i+1) for i in range(len(tgt_cols))])
-        isql = f"INSERT INTO {node['name']} ({insert_cols}) VALUES ({pholders})"
+        pholders = [':' + str(i+1) for i in range(len(tgt_cols))]
+
+        merge_sql = None
+        if pk_col:
+            src_select = ', '.join([f"{ph} AS {col}" for ph, col in zip(pholders, tgt_cols)])
+            on_clause = f"tgt.{pk_col} = src.{pk_col}"
+            update_cols = [col for col in tgt_cols if col != pk_col]
+            update_clause = ''
+            if update_cols:
+                set_exprs = ', '.join([f"tgt.{col} = src.{col}" for col in update_cols])
+                update_clause = f" WHEN MATCHED THEN UPDATE SET {set_exprs}"
+            merge_sql = (
+                f"MERGE INTO {node['name']} tgt "
+                f"USING (SELECT {src_select} FROM dual) src "
+                f"ON ({on_clause})"
+                f"{update_clause} "
+                f"WHEN NOT MATCHED THEN INSERT ({insert_cols}) VALUES ({', '.join(['src.' + col for col in tgt_cols])})"
+            )
+        else:
+            isql = f"INSERT INTO {node['name']} ({insert_cols}) VALUES ({', '.join(pholders)})"
         n_total = len(rows)
         n_batches = (n_total + batch_size - 1) // batch_size
         for b in range(n_batches):
             batch_rows = rows[b*batch_size:(b+1)*batch_size]
             try:
-                tgt_cur.executemany(isql, batch_rows)
+                if merge_sql:
+                    tgt_cur.executemany(merge_sql, batch_rows)
+                else:
+                    tgt_cur.executemany(isql, batch_rows)
                 log(f"[BATCH] Loaded {len(batch_rows)} rows into {node['name']}")
             except Exception as e:
                 log(f"[WARN] Batch insert failed in {node['name']} (rows {b*batch_size}-{b*batch_size+len(batch_rows)}): {e}")
