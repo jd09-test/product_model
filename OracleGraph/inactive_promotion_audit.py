@@ -18,94 +18,6 @@ Outputs:
   - promotion usages (via A and B)
 """
 
-# ============================================================================
-# REUSABLE VERBAL PROMPT — Inactive products + ancestor + promotion-usage audit
-# ============================================================================
-#
-# Use this prompt to drive an LLM to produce the correct PGQL queries *without*
-# referencing any Python code.
-#
-# Context
-# -------
-# You have an Oracle Property Graph (queried using Oracle PGQL via GRAPH_TABLE)
-# that contains these vertex labels:
-#   - PRODUCTVOD, VODVERSION, OBJECTRELATIONSHIP, OBJECTRELATIONSHIPDOMAIN,
-#     PRODUCTDEFINITION, PROMOTIONDEFINITION, PROMOTIONITEM
-#
-# Important semantics
-# -------------------
-# - “Latest version of a product” is represented by:
-#     (p IS PRODUCTVOD)-[:PRODUCTVOD_HAS_VERSION_VODVERSION]->(v IS VODVERSION)
-#     with v.CURRENT_VERSION_FLAG = 'Y'
-# - A product is “inactive in its latest version” when that latest VODVERSION
-#   has ACTIVE_FLAG <> 'Y'.
-# - Product->Product inclusion (child included in parent) can be discovered via
-#   *two distinct graph paths* that must be UNION-ed:
-#   Path A (direct):
-#     (parent IS PRODUCTVOD)
-#       -[:PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]->(rel IS OBJECTRELATIONSHIP)
-#       -[:PRODUCTRELATION_REFERS_TO_PRODUCTVOD]->(child IS PRODUCTVOD)
-#     Filter: rel.SUB_OBJECT_TYPE_CODE = 'Product'
-#
-#   Path B (relationship domain):
-#     (parent IS PRODUCTVOD)
-#       -[:PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]->(rel IS OBJECTRELATIONSHIP)
-#       -[:OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]->(dom IS OBJECTRELATIONSHIPDOMAIN)
-#       -[:OBJECTRELATIONSHIPDOMAIN_REFERS_TO_PRODUCTVOD]->(child IS PRODUCTVOD)
-#     Filter: dom.SUB_OBJECT_TYPE_CODE = 'Product'
-#
-# Verbal step-by-step instructions (LLM should execute iteratively)
-# -----------------------------------------------------------------
-# 1) Query inactive products (latest version only)
-#    - Find all PRODUCTVOD nodes whose *latest/current* VODVERSION
-#      (CURRENT_VERSION_FLAG='Y') has ACTIVE_FLAG <> 'Y'.
-#    - Return the product identifier as PRODUCTVOD.OBJECT_NUMBER.
-#
-# 2) Walk upward to collect parent products (repeat for N hops)
-#    - Maintain a “frontier” list of child PRODUCTVOD.OBJECT_NUMBER values.
-#    - For each hop, find DISTINCT parent PRODUCTVOD.OBJECT_NUMBER values using
-#      UNION of Path A and Path B (described above), restricted to:
-#        child.OBJECT_NUMBER IN (<frontier list>)
-#    - IMPORTANT: when returning parents, only consider parents in their
-#      *latest/current* version:
-#        also match parent -> VODVERSION and filter pv.CURRENT_VERSION_FLAG='Y'
-#      (this is the key rule: check parent existence/validity only in latest
-#      parent version).
-#    - De-duplicate parents across hops and stop early if a hop returns no
-#      new parents.
-#
-# 3) Build the final set of product object numbers
-#    - Union the inactive set (step 1) with all discovered parents (step 2).
-#
-# 4) Query promotion usage for any product in the final set
-#    - Use UNION across the supported usage paths, and return at least:
-#        promotion name/id + which product object number is used.
-#
-#    Usage path A (promotion item references product vod number):
-#      (promo IS PROMOTIONDEFINITION)
-#        -[:PROMOTIONDEFINITION_HAS_ITEMS_PROMOTIONITEM]->(item IS PROMOTIONITEM)
-#        -[:PROMOTIONITEM_DOMAIN_PRODUCTVOD]->(pvod IS PRODUCTVOD)
-#      Filter: pvod.OBJECT_NUMBER IN (<final set>)
-#
-#    Usage path B (promotion item references product definition -> product vod):
-#      (promo IS PROMOTIONDEFINITION)
-#        -[:PROMOTIONDEFINITION_HAS_ITEMS_PROMOTIONITEM]->(item IS PROMOTIONITEM)
-#        -[:PROMOTIONITEM_REFERS_TO_PRODUCTDEFINITION]->(pd IS PRODUCTDEFINITION)
-#      and
-#      (pvod IS PRODUCTVOD)-[:PRODUCTVOD_HAS_DEFINITION_PRODUCTDEFINITION]->(pd)
-#      Filter: pvod.OBJECT_NUMBER IN (<final set>)
-#
-#    (Optional fallback, if present in schema) Usage path C:
-#      (promo)-[:...]->(item)-[:PROMOTIONITEM_POINTS_TO_PRODUCTVOD]->(pvod)
-#      Filter: pvod.OBJECT_NUMBER IN (<final set>)
-#
-# Output expectations
-# -------------------
-# - Step 1 returns a list of inactive product OBJECT_NUMBER values.
-# - Step 2 returns ancestor levels per hop (each hop a list of parent OBJECT_NUMBERs).
-# - Step 4 returns promotion usages with enough fields to identify the promotion
-#   and the used product OBJECT_NUMBER.
-
 
 from __future__ import annotations
 
@@ -163,6 +75,10 @@ FROM GRAPH_TABLE(
 )
 ORDER BY inactive_product_object_number
 """
+    print("Fetch Inactive Product")
+    print("*"*50)
+    print(sql)
+    print("*"*50)
     rows = run_query(conn, sql)
     return [r["INACTIVE_PRODUCT_OBJECT_NUMBER"] for r in rows]
 
@@ -208,7 +124,7 @@ FROM (
                    -[hasDom IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]-> (dom IS OBJECTRELATIONSHIPDOMAIN)
                    -[domRef IS OBJECTRELATIONSHIPDOMAIN_REFERS_TO_PRODUCTVOD]-> (child)
     WHERE child.OBJECT_NUMBER IN ({in_list})
-      AND dom.SUB_OBJECT_TYPE_CODE = 'Product'
+      AND rel.SUB_OBJECT_TYPE_CODE IN ('Port','DynPort')
       AND pv.CURRENT_VERSION_FLAG = 'Y'
     COLUMNS(
       parent.OBJECT_NUMBER AS parent_product_object_number
@@ -217,6 +133,10 @@ FROM (
 )
 ORDER BY parent_product_object_number
 """
+    print("Fetch Parent Product")
+    print("*"*50)
+    print(sql)
+    print("*"*50)
     rows = run_query(conn, sql)
     return [r["PARENT_PRODUCT_OBJECT_NUMBER"] for r in rows]
 
@@ -300,6 +220,11 @@ FROM (
 )
 ORDER BY promo_name, used_via, used_product_object_number
 """
+    print("Fetch Promotions")
+    print("*"*50)
+    print(sql)
+    print("*"*50)
+    rows = run_query(conn, sql)
     rows = run_query(conn, sql)
 
     # De-duplicate: prefer the more "structural" ProductDefinition-based match when
