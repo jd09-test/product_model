@@ -1,5 +1,5 @@
 {
-    "nodes": [
+   "nodes": [
         {
             "name": "ATTRIBUTEVOD",
             "label": "ATTRIBUTEVOD",
@@ -19,7 +19,8 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -41,7 +42,8 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -63,7 +65,8 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -77,7 +80,8 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ROW_ID": "ROW_ID",
-                "DESC_TEXT": "DESCRIPTIVE_TEXT"
+                "DESC_TEXT": "DESCRIPTIVE_TEXT",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -96,7 +100,8 @@
                 "END_DT": "END_DATE",
                 "RELEASED_FLG": "RELEASED_FLAG",
                 "ROW_ID": "ROW_ID",
-                "ACTIVE_FLG": "ACTIVE_FLAG"
+                "ACTIVE_FLG": "ACTIVE_FLAG",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -116,7 +121,8 @@
                 "DATA_TYPE_CD": "DATA_TYPE_CODE",
                 "DOMAIN_TYPE_CD": "DOMAIN_TYPE_CODE",
                 "LAST_VERS": "LAST_VERSION",
-                "MAX_VAL": "MAXIMUM_VALUE"
+                "MAX_VAL": "MAXIMUM_VALUE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -133,7 +139,8 @@
                 "VOD_ID": "VOD_ID",
                 "FIRST_VERS": "FIRST_VERSION",
                 "ROW_ID": "ROW_ID",
-                "SEQ_NUM": "SEQUENCE_NUMBER"
+                "SEQ_NUM": "SEQUENCE_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -146,7 +153,8 @@
                 "ROW_ID": "ROW_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LIC_VALUE": "LANGUAGE_INDEPENDENT_CODE_VALUE",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -187,7 +195,8 @@
                 "PROMO_INSTANCE_CD": "PROMOTION_INSTANCE_CODE",
                 "PROMO_TYPE_CD": "PROMOTION_TYPE_CODE",
                 "UOM_CD": "UNIT_OF_MEASURE_CODE",
-                "PRICE_TYPE_CD": "PRICE_TYPE_CD"
+                "PRICE_TYPE_CD": "PRICE_TYPE_CD",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -229,7 +238,8 @@
                 "PROMO_INSTANCE_CD": "PROMOTION_INSTANCE_CODE",
                 "PROMO_TYPE_CD": "PROMOTION_TYPE_CODE",
                 "UOM_CD": "UNIT_OF_MEASURE_CODE",
-                "PRICE_TYPE_CD": "PRICE_TYPE_CD"
+                "PRICE_TYPE_CD": "PRICE_TYPE_CD",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -250,7 +260,8 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "PRE_PICK_CD": "PRE_PICK_CODE",
                 "SPN_DEFN_ID": "SMART_PART_NUMBER_DEFINITION_ID",
-                "OBJECT_NAME": "OBJECT_NAME"
+                "OBJECT_NAME": "OBJECT_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -264,7 +275,8 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "OBJECT_NAME": "OBJECT_NAME",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -303,7 +315,8 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "SUB_OBJ_TMPL_VER": "SUB_OBJECT_CLASS_VERSION",
                 "ORIG_ID": "ORIGINAL_ID",
-                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE"
+                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -342,7 +355,8 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "SUB_OBJ_TMPL_VER": "SUB_OBJECT_CLASS_VERSION",
                 "ORIG_ID": "ORIGINAL_ID",
-                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE"
+                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -355,7 +369,8 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ROW_ID": "ROW_ID",
-                "SUB_OBJ_NAME": "RELATIONSHIP_NAME"
+                "SUB_OBJ_NAME": "RELATIONSHIP_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -374,7 +389,8 @@
                 "PROP_NAME": "PROPERTY_NAME",
                 "ROW_ID": "ROW_ID",
                 "ORIG_ID": "ORIGINAL_ID",
-                "ITEM_TYPE_CD": "ITEM_TYPE_CODE"
+                "ITEM_TYPE_CD": "ITEM_TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -387,7 +403,8 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ITEM_VALUE_SPEC": "ITEM_VALUE_SPECIFICATION",
                 "ROW_ID": "ROW_ID",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -415,7 +432,8 @@
                 "BUSOBJ_NAME": "BUSINESS_OBJECT_NAME",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "ORIG_ID": "ORIGINAL_ID",
-                "VOD_ID": "VOD_ID"
+                "VOD_ID": "VOD_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -434,7 +452,8 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "RSRC_NAME": "RESOURCE_NAME",
                 "ROW_ID": "ROW_ID",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -457,7 +476,8 @@
                 "VOD_ID": "VOD_ID",
                 "ORIG_ID": "ORIGINAL_ID",
                 "ROW_ID": "ROW_ID",
-                "SCRIPT_NAME": "SCRIPT_NAME"
+                "SCRIPT_NAME": "SCRIPT_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -492,7 +512,8 @@
                 "ORIG_ID": "ORIGINAL_ID",
                 "PRE_PICK_CD": "PRE_PICK_CODE",
                 "ATTR_DEF_VER": "ATTRIBUTE_DEFINITION_VERSION",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -506,7 +527,8 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCAL_NAME": "LOCAL_NAME",
                 "ROW_ID": "ROW_ID",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -529,7 +551,8 @@
                 "RULE_NAME": "RULE_NAME",
                 "RULE_COMMENTS": "RULE_COMMENTS",
                 "ROW_ID": "ROW_ID",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -542,7 +565,8 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
-                "PAR_ROW_ID": "PARENT_ROW_ID"
+                "PAR_ROW_ID": "PARENT_ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -563,7 +587,8 @@
                 "FIRST_VERS": "FIRST_VERSION",
                 "PR_RESP_ID": "PRIMARY_RESPONSIBILITY_ID",
                 "UI_CTRL_STYLE_ID": "USER_INTERFACE_CONTROL_STYLE_ID",
-                "UI_FRAME_STYLE_ID": "USER_INTERFACE_FRAME_STYLE_ID"
+                "UI_FRAME_STYLE_ID": "USER_INTERFACE_FRAME_STYLE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -579,7 +604,8 @@
                 "ROW_ID": "ROW_ID",
                 "FIRST_VERS": "FIRST_VERSION",
                 "RESP_ID": "RESPONSIBILITY_ID",
-                "ORIG_ID": "ORIGINAL_ID"
+                "ORIG_ID": "ORIGINAL_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -599,7 +625,7 @@
                 "UI_OPTION_ID": "USER_INTERFACE_OPTION_ID",
                 "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME",
                 "FIRST_VERS": "FIRST_VERSION",
-                "LAST_UPD": "LAST_UPDATED"
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -612,7 +638,8 @@
                 "ROW_ID": "ROW_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LANG_ID": "LANGUAGE_ID",
-                "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME"
+                "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -633,7 +660,8 @@
                 "ITEM_NAME": "ITEM_NAME",
                 "ITEM_ID": "ITEM_ID",
                 "PATH_SPEC": "PATH_SPECIFICATION",
-                "VOD_ID": "VOD_ID"
+                "VOD_ID": "VOD_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -647,7 +675,8 @@
                 "REASON_TXT": "REASON_TEXT",
                 "LANG_ID": "LANGUAGE_ID",
                 "ROW_ID": "ROW_ID",
-                "DESC_TEXT": "DESCRIPTIVE_TEXT"
+                "DESC_TEXT": "DESCRIPTIVE_TEXT",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -689,7 +718,8 @@
                 "DFLT_SVC_ACCNT_CD": "DEFAULT_SERVICE_ACCOUNT",
                 "COMMIT_PRD_UOM_CD": "COMMIT_PERIOD_UNIT_OF_MEASURE",
                 "GRACE_PRD_UOM_CD": "GRACE_PERIOD_UNIT_OF_MEASURE",
-                "TYPE_CD": "TYPE_CODE"
+                "TYPE_CD": "TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -702,7 +732,8 @@
                 "DESC_TEXT": "DESCRIPTION_TEXT",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LANG_ID": "LANGUAGE_ID",
-                "ROW_ID": "ROW_ID"
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -715,7 +746,8 @@
                 "ATTR_NAME": "ATTRIBUTE_NAME",
                 "COND_ACTION_CD": "CONDITIONAL_ACTION_CODE",
                 "PROM_ITEM_ID": "PROMOTION_ITEM_ID",
-                "ROW_ID": "ROW_ID"
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -727,7 +759,8 @@
             "properties": {
                 "ROW_ID": "ROW_ID",
                 "ATTR_VAL": "ATTRIBUTE_VALUE",
-                "PAR_ROW_ID": "PARENT_ROW_ID"
+                "PAR_ROW_ID": "PARENT_ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -746,7 +779,8 @@
                 "CHARGE_AMT": "CHARGE_AMOUNT",
                 "CHG_AMT_CUR_CD": "CHARGE_AMOUNT_CURRENCY_CODE",
                 "GRACE_PRD_UOM_CD": "GRACE_PERIOD_UNIT_OF_MEASURE",
-                "CHG_AMT_EXCH_DT": "CHARGE_AMOUNT_EXCHANGE_DATE"
+                "CHG_AMT_EXCH_DT": "CHARGE_AMOUNT_EXCHANGE_DATE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -769,7 +803,8 @@
                 "AGGR_DURATION_CD": "AGGR_DURATION_CD",
                 "TYPE_CD": "PROMOTION_OPERATION_TYPE",
                 "DURATION_CD": "DURATION_CODE",
-                "COMMIT_START_CD": "COMMIT_START_CODE"
+                "COMMIT_START_CD": "COMMIT_START_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -794,7 +829,8 @@
                 "PRORATE_PLAN_ID": "PRORATE_PLAN",
                 "DFLT_QTY": "DEFAULT_QUANTITY",
                 "DSP_PRORTD_CHG_FLG": "DISPLAY_PRORATED_CHARGE_FLAG",
-                "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG"
+                "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -822,7 +858,8 @@
                 "PROD_LN_ID": "PRODUCT_LINE_ID",
                 "PRI_ADJ_VAL": "PRICING_ADJUSTMENT_VALUE",
                 "ROW_ID": "ROW_ID",
-                "ADJ_GROUP_ID": "ADJUSTMENT_GROUP_ID"
+                "ADJ_GROUP_ID": "ADJUSTMENT_GROUP_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -837,7 +874,8 @@
                 "STATUS_CD": "STATUS_CODE",
                 "ROW_ID": "ROW_ID",
                 "EFF_RELEASE_TS": "EFFECTIVE_RELEASE_TIMESTAMP",
-                "BASE_SYS_TS": "BASE_SYSTEM_TIMESTAMP"
+                "BASE_SYS_TS": "BASE_SYSTEM_TIMESTAMP",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -851,7 +889,8 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "JWS_NAME": "JOINT_WORKSPACE_NAME",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
-                "ROW_ID": "ROW_ID"
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -865,7 +904,8 @@
                 "JWS_ID": "JOINT_WORKSPACE_ID",
                 "VOD_ID": "VOD_ID",
                 "VOD_STATUS_CD": "VERSIONED_OBJECT_DEFINITION_STATUS_CODE",
-                "VOD_VER": "VERSIONED_OBJECT_DEFINITION_VERSION"
+                "VOD_VER": "VERSIONED_OBJECT_DEFINITION_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -907,7 +947,8 @@
                 "PEN_AMT_CUR_CD": "PENALTY_AMOUNT_CURRENCY_CODE",
                 "MENU_CRSE_NUM": "MENU_COURSE_NUMBER",
                 "REPORT_SEQ_NUM": "REPORT_SEQUENCE_NUMBER",
-                "SPLIT_MENU_PRI": "SPLIT_MENU_PRICE"
+                "SPLIT_MENU_PRI": "SPLIT_MENU_PRICE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -933,7 +974,7 @@
                 "MAX_PRI": "MAX_PRI",
                 "MIN_PRI": "MIN_PRI",
                 "EXCH_DT": "EXCH_DT",
-                "DB_LAST_UPD": "LAST_UPDATED_ON"
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
@@ -951,7 +992,8 @@
                 "PROD_ID": "PRODUCT_ID",
                 "NAME": "NAME",
                 "ASSOCIATE_PROD_ID": "ASSOCIATE_PRODUCT_ID",
-                "SECTION_NUM": "SECTION_NUMBER"
+                "SECTION_NUM": "SECTION_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         }
     ],
@@ -1340,6 +1382,13 @@
             "to": "PRODUCTDEFINITION",
             "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONITEM_POINTS_TO_PRODUCTVOD",
+            "from": "PROMOTIONITEM",
+            "to": "PRODUCTVOD",
+            "from_key": "PRODUCT_ID",
+            "to_key": "OBJECT_NUMBER"
         },
         {
             "type": "PROMOTIONITEM_HAS_ROOT_PROMOTIONITEM",

@@ -175,7 +175,7 @@ def main():
     parser = argparse.ArgumentParser(description="Oracle 26AI Property Graph DDL generator")
     parser.add_argument("--graph_model", default="graph_model.json", help="Input graph model JSON file")
     parser.add_argument("--pgql_out", default="pgql_schema.sql", help="Output PGQL DDL file")
-    parser.add_argument("--graph_name", default="catalog_graph", help="Name of the property graph to create")
+    parser.add_argument("--graph_name", default="product_graph", help="Name of the property graph to create")
     parser.add_argument("--config", default="config.json", help="Path to config JSON with Oracle connection and schema")
     # --apply is deprecated; script now prompts interactively after DDL generation
     parser.add_argument("--apply", action="store_true", help="[Deprecated] Execute PGQL DDL without prompt (will be ignored)")

@@ -2,9 +2,6 @@ import oracledb
 import cx_Oracle
 import json
 
-LAST_UPDATED_FILTER_DATE = "15-02-26"  # DD-MM-YY format
-LAST_UPDATED_FILTER_FORMAT = "DD-MM-YY"
-
 def log(msg):
     print(msg)
 
@@ -215,15 +212,6 @@ def main():
         return " AND ".join(clauses)
 
     def build_select_sql(node, schema):
-
-        def apply_last_updated_filter(where_clause, date_column):
-            if not date_column:
-                return where_clause
-            date_filter = f"{date_column} >= TO_DATE('{LAST_UPDATED_FILTER_DATE}', '{LAST_UPDATED_FILTER_FORMAT}')"
-            if where_clause:
-                return f"{where_clause} AND {date_filter}"
-            return date_filter
-
         def col_alias_pairs(properties):
             return [f'{col} AS "{alias}"' for col, alias in properties.items()]
         if len(node["table"]) == 1:
@@ -232,10 +220,6 @@ def main():
             sql = f"SELECT {cols} FROM {schema}.{tbl}"
             if "filter" in node:
                 where_clause = parse_filter(node["filter"])
-                where_clause = apply_last_updated_filter(where_clause, "LAST_UPD")
-            else:
-                where_clause = apply_last_updated_filter('', "LAST_UPD")
-            if where_clause:
                 sql += f" WHERE {where_clause}"
             print(sql)
             return sql
@@ -246,10 +230,6 @@ def main():
             sql = f"SELECT {cols} FROM {schema}.{tbl1} JOIN {schema}.{tbl2} ON {left}={right}"
             if "filter" in node:
                 where_clause = parse_filter(node["filter"])
-                where_clause = apply_last_updated_filter(where_clause, "LAST_UPD")
-            else:
-                where_clause = apply_last_updated_filter('', "LAST_UPD")
-            if where_clause:
                 sql += f" WHERE {where_clause}"
             print(sql)
             return sql
@@ -257,7 +237,6 @@ def main():
 
     def migrate_node_data(node, src_conn, tgt_conn, schema=SOURCE_SCHEMA, batch_size=1000):
         tgt_cols = list(node['properties'].values())
-        pk_col = node['properties'].get('ROW_ID')
         sql = build_select_sql(node, schema)
         src_cur = src_conn.cursor()
         src_cur.execute(sql)
@@ -265,35 +244,14 @@ def main():
         log(f"Migrating {len(rows)} row(s) from node {node['name']} ...")
         tgt_cur = tgt_conn.cursor()
         insert_cols = ', '.join(tgt_cols)
-        pholders = [':' + str(i+1) for i in range(len(tgt_cols))]
-
-        merge_sql = None
-        if pk_col:
-            src_select = ', '.join([f"{ph} AS {col}" for ph, col in zip(pholders, tgt_cols)])
-            on_clause = f"tgt.{pk_col} = src.{pk_col}"
-            update_cols = [col for col in tgt_cols if col != pk_col]
-            update_clause = ''
-            if update_cols:
-                set_exprs = ', '.join([f"tgt.{col} = src.{col}" for col in update_cols])
-                update_clause = f" WHEN MATCHED THEN UPDATE SET {set_exprs}"
-            merge_sql = (
-                f"MERGE INTO {node['name']} tgt "
-                f"USING (SELECT {src_select} FROM dual) src "
-                f"ON ({on_clause})"
-                f"{update_clause} "
-                f"WHEN NOT MATCHED THEN INSERT ({insert_cols}) VALUES ({', '.join(['src.' + col for col in tgt_cols])})"
-            )
-        else:
-            isql = f"INSERT INTO {node['name']} ({insert_cols}) VALUES ({', '.join(pholders)})"
+        pholders = ', '.join([':' + str(i+1) for i in range(len(tgt_cols))])
+        isql = f"INSERT INTO {node['name']} ({insert_cols}) VALUES ({pholders})"
         n_total = len(rows)
         n_batches = (n_total + batch_size - 1) // batch_size
         for b in range(n_batches):
             batch_rows = rows[b*batch_size:(b+1)*batch_size]
             try:
-                if merge_sql:
-                    tgt_cur.executemany(merge_sql, batch_rows)
-                else:
-                    tgt_cur.executemany(isql, batch_rows)
+                tgt_cur.executemany(isql, batch_rows)
                 log(f"[BATCH] Loaded {len(batch_rows)} rows into {node['name']}")
             except Exception as e:
                 log(f"[WARN] Batch insert failed in {node['name']} (rows {b*batch_size}-{b*batch_size+len(batch_rows)}): {e}")
