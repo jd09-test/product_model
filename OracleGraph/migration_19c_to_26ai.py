@@ -9,11 +9,8 @@ def log(msg):
     print(msg)
 
 def generate_ddl(graph_model):
-    node_map = {n['name']: n for n in graph_model['nodes']}
-    table_to_node = {tuple(n.get('table',[]))[0]: n['name'] for n in graph_model['nodes'] if n.get('table')}
     node_pk_cols = {}
     ddls = []
-    fks_by_table = {}
     # No UNIQUE constraints apart from PK
     for node in graph_model['nodes']:
         table_name = node['name']
@@ -36,26 +33,11 @@ def generate_ddl(graph_model):
         table_ddl += [");"]
         ddls.append('\n'.join(table_ddl))
 
-    for rel in graph_model['relationships']:
-        from_table = rel['from']
-        to_table = rel['to']
-        from_key = rel['from_key']
-        to_key = rel['to_key']
-        
-        fk_name = f"FK_{to_table}_{to_key}_TO_{from_table}_{from_key}"
-        if to_table not in fks_by_table:
-            fks_by_table[to_table] = []
-        fks_by_table[to_table].append(
-            f"ALTER TABLE {to_table} ADD CONSTRAINT {fk_name} FOREIGN KEY ({to_key}) REFERENCES {from_table} ({from_key});"
-        )
 
     full_ddl = []
-    fks_flat = []
     for ddl in ddls:
         full_ddl.append(ddl)
-    for table, fks in fks_by_table.items():
-        fks_flat += fks
-    return '\n'.join(full_ddl), fks_flat
+    return '\n'.join(full_ddl)
 
 def execute_ddl_file_on_target_db(sqlfile, conn):
     log("\n-- Executing DDL in target database (26ai DB) --")
@@ -119,16 +101,10 @@ def main():
 
     with graph_model_path.open() as f:
         graph_model = json.load(f)
-    ddl_out, fk_alter_stmts = generate_ddl(graph_model)
-    log("\n26ai (target) DB - Suggested DDL (NO FK CONSTRAINTS YET):\n")
+    ddl_out = generate_ddl(graph_model)
     print(ddl_out)
     with open("create_26ai_schema.sql", "w") as outf:
         outf.write(ddl_out)
-    with open("add_fk_constraints.sql", "w") as outf:
-        for stmt in fk_alter_stmts:
-            outf.write(stmt + "\n")
-    log("\nDDL written to create_26ai_schema.sql (tables only)\n")
-
     # Get all table names that will be (re)created
     table_list = [node['name'] for node in graph_model['nodes']]
 
