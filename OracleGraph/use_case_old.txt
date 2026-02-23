@@ -1,0 +1,424 @@
+1
+use oraclepgql mcp tool display the number of domain products present in class or dynamic class relationship for  each class VOD.
+Group the result by class vod and then by relationship name in latest version.
+
+SELECT
+  product_vod_name,
+  relationship_name,
+  COUNT(DISTINCT domain_product_number) AS domain_product_count
+FROM GRAPH_TABLE(
+  "catalog_graph"
+    MATCH
+      (prod IS PRODUCTVOD)
+        -[IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (ver IS VODVERSION),
+      (prod) -[IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (r IS OBJECTRELATIONSHIP),
+      (r) -[IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]-> (rd IS OBJECTRELATIONSHIPDOMAIN),
+      (rd)-[IS OBJECTRELATIONSHIPDOMAIN_REFERS_TO_PRODUCTVOD]-> (dp IS PRODUCTVOD)
+    COLUMNS(
+      prod.VOD_NAME as product_vod_name,
+      ver.VERSION_NUMBER as version_number,
+      ver.CURRENT_VERSION_FLAG as is_latest,
+      r.SUB_OBJECT_TYPE_CODE as rel_type,
+      r.FIRST_VERSION as r_first_ver,
+      r.LAST_VERSION as r_last_ver,
+      rd.FIRST_VERSION as rd_first_ver,
+      rd.LAST_VERSION as rd_last_ver,
+      dp.OBJECT_NUMBER as domain_product_number,
+      r.RELATIONSHIP_NAME as relationship_name
+    )
+)
+WHERE
+    rel_type IN ('Port', 'DynPort')
+AND is_latest = 'Y'
+AND TO_NUMBER(r_first_ver) <= TO_NUMBER(version_number)
+AND (r_last_ver IS NULL OR TO_NUMBER(version_number) <= TO_NUMBER(r_last_ver))
+AND TO_NUMBER(rd_first_ver) <= TO_NUMBER(version_number)
+AND (rd_last_ver IS NULL OR TO_NUMBER(version_number) <= TO_NUMBER(rd_last_ver))
+GROUP BY product_vod_name, relationship_name
+ORDER BY product_vod_name, relationship_name
+
+
+2
+show class vod which has class or dynamic class relationships for class vod which are created without any class specified in sub_object_class_id
+
+SELECT DISTINCT c_vod_name AS class_name
+FROM GRAPH_TABLE(
+    "catalog_graph" MATCH
+        (c IS CLASSVOD) -[rel_edge IS CLASSVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (r IS OBJECTRELATIONSHIP)
+    COLUMNS(
+        c.VOD_NAME AS c_vod_name,
+        r.SUB_OBJECT_TYPE_CODE AS r_sub_object_type_code,
+        r.SUB_OBJECT_CLASS_ID AS r_sub_object_class_id
+    )
+)
+WHERE r_sub_object_type_code IN ('Port','DynPort')
+  AND (r_sub_object_class_id IS NULL OR TRIM(r_sub_object_class_id) = '')
+ORDER BY class_name
+
+3
+show product vod which has class or dynamic class relationships for product vod which has only one  rel domain in  relationship in latest version
+
+SELECT
+  product_vod_name,
+  relationship_name
+FROM GRAPH_TABLE(
+  "catalog_graph"
+    MATCH
+      (prod IS PRODUCTVOD)
+        -[IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (ver IS VODVERSION),
+      (prod)
+        -[IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (r IS OBJECTRELATIONSHIP),
+      (r)
+        -[IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]-> (rd IS OBJECTRELATIONSHIPDOMAIN)
+    COLUMNS(
+      prod.VOD_NAME as product_vod_name,
+      ver.CURRENT_VERSION_FLAG as is_latest,
+      r.SUB_OBJECT_TYPE_CODE as rel_type,
+      r.RELATIONSHIP_NAME as relationship_name,
+      rd.ROW_ID as rel_domain_id
+    )
+)
+WHERE
+    is_latest = 'Y'
+AND rel_type IN ('Port', 'DynPort')
+GROUP BY product_vod_name, relationship_name
+HAVING COUNT(DISTINCT rel_domain_id) = 1
+ORDER BY product_vod_name, relationship_name
+
+
+4
+use pqgl mcp tool
+list the products in there latest version which have a relationship of type "product" and class  is also poplated from same relationship
+
+SELECT DISTINCT
+  product_name,
+  product_object_number,
+  product_version_number
+FROM GRAPH_TABLE(
+  "catalog_graph"
+  MATCH (p IS PRODUCTVOD)
+        -[pv IS PRODUCTVOD_HAS_VERSION_VODVERSION]->(ver IS VODVERSION),
+        (p)-[pr IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]->(rel IS OBJECTRELATIONSHIP),
+        (rel)-[rprod IS PRODUCTRELATION_REFERS_TO_PRODUCTVOD]->(subp IS PRODUCTVOD),
+        (rel)-[rcls  IS OBJECTRELATIONSHIP_REFERS_TO_CLASSVOD]->(c IS CLASSVOD)
+  COLUMNS(
+    p.VOD_NAME AS product_name,
+    p.OBJECT_NUMBER AS product_object_number,
+    ver.VERSION_NUMBER AS product_version_number,
+    ver.CURRENT_VERSION_FLAG AS current_version_flag,
+    rel.SUB_OBJECT_TYPE_CODE AS sub_object_type_code,
+    rel.SUB_OBJECT_PRODUCT_ID AS sub_object_product_object_number,
+    rel.SUB_OBJECT_CLASS_ID AS sub_object_class_object_number,
+    rel.FIRST_VERSION AS rel_first_version,
+    rel.LAST_VERSION AS rel_last_version
+  )
+)
+WHERE current_version_flag = 'Y'
+  AND sub_object_type_code = 'Product'
+  AND sub_object_product_object_number IS NOT NULL
+  AND sub_object_class_object_number IS NOT NULL
+  AND rel_first_version <= product_version_number
+  AND (rel_last_version IS NULL OR product_version_number <= rel_last_version)
+ORDER BY product_name
+
+5
+Find ProductVod items that have multiple active constraint rules with the same RULE_SPECIFICATION in the current version.
+SELECT * FROM (
+    SELECT
+        product_name,
+        product_number,
+        version_number,
+        rule_spec,
+        LISTAGG(constraint_row_id, ', ') WITHIN GROUP (ORDER BY constraint_row_id) AS duplicate_rule_ids,
+        COUNT(*) AS rule_count
+    FROM GRAPH_TABLE(
+        "catalog_graph"
+        MATCH
+            (p IS PRODUCTVOD) -[pv IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (ver IS VODVERSION),
+            (p) -[pr IS PRODUCTVOD_HAS_RULE_CONSTRAINTRULE]-> (cr IS CONSTRAINTRULE)
+        COLUMNS(
+            p.VOD_NAME AS product_name,
+            p.OBJECT_NUMBER AS product_number,
+            ver.VERSION_NUMBER AS version_number,
+            ver.CURRENT_VERSION_FLAG AS current_flag,
+            cr.ROW_ID AS constraint_row_id,
+            cr.RULE_SPECIFICATION AS rule_spec,
+            cr.ACTIVE_FLAG AS constraint_active,
+            cr.FIRST_VERSION AS constraint_first_version,
+            cr.LAST_VERSION AS constraint_last_version
+        )
+    )
+    WHERE current_flag = 'Y'
+      AND constraint_active = 'Y'
+      AND (TO_NUMBER(constraint_first_version) IS NULL OR TO_NUMBER(constraint_first_version) <= version_number)
+      AND (constraint_last_version IS NULL OR TO_NUMBER(constraint_last_version) >= version_number)
+    GROUP BY product_name, product_number, version_number, rule_spec
+    HAVING COUNT(*) > 1
+)
+ORDER BY product_name, rule_spec;
+
+
+6
+Provide a list of all products (considering only the latest version) in which "ACT_IC_SP5" is included as part of their relationship or relationship domain.
+
+SELECT DISTINCT product_name
+FROM (
+  -- Direct relationship path
+  SELECT p_vod_name AS product_name
+  FROM GRAPH_TABLE(
+    "catalog_graph" MATCH
+        (p IS PRODUCTVOD) -[ver IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (v IS VODVERSION),
+        (p) -[rel_edge IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP)
+    COLUMNS(
+        p.VOD_NAME AS p_vod_name,
+        rel.SUB_OBJECT_PRODUCT_ID AS rel_sub_object_product_id,
+        rel.FIRST_VERSION AS rel_first_version,
+        rel.LAST_VERSION AS rel_last_version,
+        v.VERSION_NUMBER AS v_version_number,
+        v.CURRENT_VERSION_FLAG AS v_current_version_flag
+    )
+  )
+  WHERE v_current_version_flag = 'Y'
+    AND rel_sub_object_product_id = '88-2W7FS'
+    AND to_number(rel_first_version) <= to_number(v_version_number)
+    AND (rel_last_version IS NULL OR to_number(v_version_number) <= to_number(rel_last_version))
+
+  UNION
+
+  -- Relationship domain path
+  SELECT p_vod_name AS product_name
+  FROM GRAPH_TABLE(
+    "catalog_graph" MATCH
+        (p IS PRODUCTVOD) -[ver IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (v IS VODVERSION),
+        (p) -[rel_edge IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP),
+        (rel) -[dom_edge IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]-> (domain IS OBJECTRELATIONSHIPDOMAIN)
+    COLUMNS(
+        p.VOD_NAME AS p_vod_name,
+        rel.FIRST_VERSION AS rel_first_version,
+        rel.LAST_VERSION AS rel_last_version,
+        v.VERSION_NUMBER AS v_version_number,
+        v.CURRENT_VERSION_FLAG AS v_current_version_flag,
+        domain.SUB_OBJECT_PRODUCT_ID AS domain_sub_object_product_id,
+        domain.FIRST_VERSION AS domain_first_version,
+        domain.LAST_VERSION AS domain_last_version
+    )
+  )
+  WHERE v_current_version_flag = 'Y'
+    AND domain_sub_object_product_id = '88-2W7FS'
+    AND to_number(rel_first_version) <= to_number(v_version_number)
+    AND (rel_last_version IS NULL OR to_number(v_version_number) <= to_number(rel_last_version))
+    AND to_number(domain_first_version) <= to_number(v_version_number)
+    AND (domain_last_version IS NULL OR to_number(v_version_number) <= to_number(domain_last_version))
+)
+ORDER BY product_name
+
+7
+Provide a list of all products (considering only the latest version) in which have products which a inactive in there latest version and are included as part of their parent product relationship or  relationship domain.
+
+WITH inactive_children AS (
+    SELECT child_row_id,
+           child_name,
+           child_number,
+           child_version
+    FROM GRAPH_TABLE(
+        "catalog_graph"
+        MATCH (child IS PRODUCTVOD) -[pv IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (ver IS VODVERSION)
+        COLUMNS(child.ROW_ID AS child_row_id,
+                child.VOD_NAME AS child_name,
+                child.OBJECT_NUMBER AS child_number,
+                ver.VERSION_NUMBER AS child_version,
+                ver.CURRENT_VERSION_FLAG AS child_current_flag,
+                ver.ACTIVE_FLAG AS child_active_flag)
+    )
+    WHERE child_current_flag = 'Y'
+      AND child_active_flag = 'N'
+)
+
+SELECT * FROM (
+    SELECT DISTINCT
+        rel_parent_name AS parent_name,
+        rel_parent_number AS parent_number,
+        ic.child_name,
+        ic.child_number,
+        ic.child_version,
+        'RELATIONSHIP' AS path_type
+    FROM GRAPH_TABLE(
+        "catalog_graph"
+        MATCH (parent IS PRODUCTVOD) -[parent_rel IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP)
+        COLUMNS(parent.VOD_NAME AS rel_parent_name,
+                parent.OBJECT_NUMBER AS rel_parent_number,
+                rel.SUB_OBJECT_PRODUCT_ID AS sub_object_product_id,
+                rel.SUB_OBJECT_TYPE_CODE AS rel_type,
+                rel.FIRST_VERSION AS rel_first_version,
+                rel.LAST_VERSION AS rel_last_version)
+    ) rel_path
+    JOIN inactive_children ic
+      ON ic.child_number = sub_object_product_id
+    WHERE rel_type = 'Product'
+      AND (rel_first_version IS NULL OR TO_NUMBER(rel_first_version) <= ic.child_version)
+      AND (rel_last_version IS NULL OR TO_NUMBER(rel_last_version) >= ic.child_version)
+
+    UNION
+
+    SELECT DISTINCT
+        domain_parent_name AS parent_name,
+        domain_parent_number AS parent_number,
+        ic.child_name,
+        ic.child_number,
+        ic.child_version,
+        'RELATIONSHIP_DOMAIN' AS path_type
+    FROM GRAPH_TABLE(
+        "catalog_graph"
+        MATCH (parent IS PRODUCTVOD)
+              -[parent_rel IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP)
+              -[rel_domain IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]-> (domain IS OBJECTRELATIONSHIPDOMAIN)
+        COLUMNS(parent.VOD_NAME AS domain_parent_name,
+                parent.OBJECT_NUMBER AS domain_parent_number,
+                domain.SUB_OBJECT_PRODUCT_ID AS domain_child_number,
+                domain.SUB_OBJECT_TYPE_CODE AS domain_type,
+                domain.FIRST_VERSION AS domain_first_version,
+                domain.LAST_VERSION AS domain_last_version)
+    ) domain_path
+    JOIN inactive_children ic
+      ON ic.child_number = domain_child_number
+    WHERE domain_type = 'Product'
+      AND (domain_first_version IS NULL OR TO_NUMBER(domain_first_version) <= ic.child_version)
+      AND (domain_last_version IS NULL OR TO_NUMBER(domain_last_version) >= ic.child_version)
+)
+ORDER BY parent_name, child_name, path_type;
+
+
+
+8 : To check if we have any active promotion with an inactive product
+step 1
+use oracle pgql mcp tool and
+Find products that are inactive in their latest version
+for "product_graph"
+
+SELECT DISTINCT
+    product_row_id,
+    product_name,
+    version_number,
+    version_id
+FROM GRAPH_TABLE(
+    "catalog_graph"
+    MATCH
+        (p IS PRODUCTVOD) -[pv IS PRODUCTVOD_HAS_VERSION_VODVERSION]-> (v IS VODVERSION)
+    WHERE
+        v.CURRENT_VERSION_FLAG = 'Y'
+        AND v.ACTIVE_FLAG = 'N'
+    COLUMNS(
+        p.ROW_ID AS product_row_id,
+        p.VOD_NAME AS product_name,
+        v.VERSION_NUMBER AS version_number,
+        v.VERSION_ID AS version_id
+    )
+)
+ORDER BY product_name;
+
+step 2
+identify if this above inactive products are used in any other product in latest version using BOTH paths (direct relationship + relationship domain)
+if you find any parent product then recurasly get its parents till you dont get any parent
+do it step by step do not make it in one query
+show the combined list of all inactive products and its ancsitors
+
+1. Direct Product-to-Product relationships
+SELECT * FROM GRAPH_TABLE(
+    "product_graph"
+    MATCH
+        (parent IS PRODUCTVOD)
+        -[parent_version_rel IS PRODUCTVOD_HAS_VERSION_VODVERSION]->
+        (parent_ver IS VODVERSION),
+        (parent) -[parent_rel IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP),
+        (rel) -[child_rel IS PRODUCTRELATION_REFERS_TO_PRODUCTVOD]-> (child IS PRODUCTVOD)
+    WHERE parent_ver.CURRENT_VERSION_FLAG = 'Y'
+      AND rel.SUB_OBJECT_TYPE_CODE = 'Product'
+      AND rel.SUB_OBJECT_PRODUCT_ID = child.OBJECT_NUMBER
+      AND TO_NUMBER(rel.FIRST_VERSION) <= TO_NUMBER(parent_ver.VERSION_NUMBER)
+      AND (rel.LAST_VERSION IS NULL OR TO_NUMBER(parent_ver.VERSION_NUMBER) <= TO_NUMBER(rel.LAST_VERSION))
+      AND child.OBJECT_NUMBER IN (
+          -- replace this list with the child products you’re investigating
+      )
+    COLUMNS(
+        parent.VOD_NAME AS parent_product_name,
+        parent.OBJECT_NUMBER AS parent_product_object_number,
+        parent_ver.VERSION_NUMBER AS parent_version_number,
+        child.VOD_NAME AS child_product_name,
+        child.OBJECT_NUMBER AS child_product_object_number,
+        rel.RELATIONSHIP_NAME AS relationship_name,
+        rel.FIRST_VERSION AS rel_first_version,
+        rel.LAST_VERSION AS rel_last_version,
+        rel.SUB_OBJECT_TYPE_CODE AS rel_type
+    )
+)
+ORDER BY parent_product_name, child_product_name;
+
+
+2. Relationship-domain parents (Port/DynPort)
+SELECT * FROM GRAPH_TABLE(
+    "product_graph"
+    MATCH
+        (parent IS PRODUCTVOD)
+        -[parent_version_rel IS PRODUCTVOD_HAS_VERSION_VODVERSION]->
+        (parent_ver IS VODVERSION),
+        (parent) -[parent_rel IS PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP]-> (rel IS OBJECTRELATIONSHIP),
+        (rel) -[domain_rel IS OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN]->
+            (domain IS OBJECTRELATIONSHIPDOMAIN),
+        (domain) -[domain_child_rel IS OBJECTRELATIONSHIPDOMAIN_REFERS_TO_PRODUCTVOD]-> (child IS PRODUCTVOD)
+    WHERE parent_ver.CURRENT_VERSION_FLAG = 'Y'
+      AND rel.SUB_OBJECT_TYPE_CODE IN ('Port','DynPort')
+      AND TO_NUMBER(rel.FIRST_VERSION) <= TO_NUMBER(parent_ver.VERSION_NUMBER)
+      AND (rel.LAST_VERSION IS NULL OR TO_NUMBER(parent_ver.VERSION_NUMBER) <= TO_NUMBER(rel.LAST_VERSION))
+      AND TO_NUMBER(domain.FIRST_VERSION) <= TO_NUMBER(parent_ver.VERSION_NUMBER)
+      AND (domain.LAST_VERSION IS NULL OR TO_NUMBER(parent_ver.VERSION_NUMBER) <= TO_NUMBER(domain.LAST_VERSION))
+      AND domain.SUB_OBJECT_PRODUCT_ID = child.OBJECT_NUMBER
+      AND child.OBJECT_NUMBER IN (
+          -- replace this list with the child products you’re investigating
+      )
+    COLUMNS(
+        parent.VOD_NAME AS parent_product_name,
+        parent.OBJECT_NUMBER AS parent_product_object_number,
+        parent_ver.VERSION_NUMBER AS parent_version_number,
+        child.VOD_NAME AS child_product_name,
+        child.OBJECT_NUMBER AS child_product_object_number,
+        rel.RELATIONSHIP_NAME AS relationship_name,
+        rel.SUB_OBJECT_TYPE_CODE AS rel_type,
+        domain.FIRST_VERSION AS domain_first_version,
+        domain.LAST_VERSION AS domain_last_version
+    )
+)
+ORDER BY parent_product_name, child_product_name;
+
+
+step 3
+Check whether any product in the discovered set is used in promotions via:
+   A) PROMOTIONITEM_DOMAIN_PRODUCTVOD
+   B) PROMOTIONITEM_REFERS_TO_PRODUCTDEFINITION
+rels
+
+
+SELECT * FROM GRAPH_TABLE(
+    "product_graph"
+    MATCH
+        (prod IS PRODUCTVOD)
+        -[prod_def_rel IS PRODUCTVOD_HAS_DEFINITION_PRODUCTDEFINITION]->
+        (prod_def IS PRODUCTDEFINITION)
+        <-[ref_def IS PROMOTIONITEM_REFERS_TO_PRODUCTDEFINITION]-
+        (prom_item IS PROMOTIONITEM)
+        <-[has_item IS PROMOTIONDEFINITION_HAS_ITEMS_PROMOTIONITEM]-
+        (prom_def IS PROMOTIONDEFINITION)
+    WHERE prod.OBJECT_NUMBER IN (
+        '88-3HAESL','88-3HAEO4','88-3H9O9N','88-3H9OMM','88-3HC87G','88-3H9O72','88-3H9P0C','88-3HC83W','88-3HC831','88-3H9AVT',
+        '88-3H9NHZ','88-3H9NNP','88-3H9NW8','88-3H9C66','88-3H9CVO','88-3H9CYW','88-3H9CZV',
+        '88-3H9O87','88-3HC84G','88-3HC85P','88-3HC7YU','88-3HC86L'
+    )
+    COLUMNS(
+        prod.VOD_NAME AS product_name,
+        prod.OBJECT_NUMBER AS product_object_number,
+        prom_def.NAME AS promotion_name,
+        prom_def.ROW_ID AS promotion_row_id,
+        prom_item.ROW_ID AS promotion_item_row_id,
+        'PRODUCT_DEFINITION' AS promotion_path
+    )
+)
+ORDER BY product_name, promotion_name;

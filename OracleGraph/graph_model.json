@@ -355,7 +355,6 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "SUB_OBJ_TMPL_VER": "SUB_OBJECT_CLASS_VERSION",
                 "ORIG_ID": "ORIGINAL_ID",
-                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE",
                 "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
@@ -1382,13 +1381,6 @@
             "to": "PRODUCTDEFINITION",
             "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
-        },
-        {
-            "type": "PROMOTIONITEM_POINTS_TO_PRODUCTVOD",
-            "from": "PROMOTIONITEM",
-            "to": "PRODUCTVOD",
-            "from_key": "PRODUCT_ID",
-            "to_key": "OBJECT_NUMBER"
         },
         {
             "type": "PROMOTIONITEM_HAS_ROOT_PROMOTIONITEM",
