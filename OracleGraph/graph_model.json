@@ -1,8 +1,8 @@
 {
-    "nodes": [
+   "nodes": [
         {
-            "name": "AttributeVod",
-            "label": "AttributeVod",
+            "name": "ATTRIBUTEVOD",
+            "label": "ATTRIBUTEVOD",
             "table": [
                 "S_VOD"
             ],
@@ -19,12 +19,13 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ClassVod",
-            "label": "ClassVod",
+            "name": "CLASSVOD",
+            "label": "CLASSVOD",
             "table": [
                 "S_VOD"
             ],
@@ -41,12 +42,13 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ProductVod",
-            "label": "ProductVod",
+            "name": "PRODUCTVOD",
+            "label": "PRODUCTVOD",
             "table": [
                 "S_VOD"
             ],
@@ -63,12 +65,13 @@
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCKED_FLG": "LOCKED_FLAG",
-                "OBJECT_NUM": "OBJECT_NUMBER"
+                "OBJECT_NUM": "OBJECT_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "VodTranslation",
-            "label": "VodTranslation",
+            "name": "VODTRANSLATION",
+            "label": "VODTRANSLATION",
             "table": [
                 "S_VOD_LANG"
             ],
@@ -77,12 +80,13 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ROW_ID": "ROW_ID",
-                "DESC_TEXT": "DESCRIPTIVE_TEXT"
+                "DESC_TEXT": "DESCRIPTIVE_TEXT",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "VodVersion",
-            "label": "VodVersion",
+            "name": "VODVERSION",
+            "label": "VODVERSION",
             "table": [
                 "S_VOD_VER"
             ],
@@ -96,12 +100,13 @@
                 "END_DT": "END_DATE",
                 "RELEASED_FLG": "RELEASED_FLAG",
                 "ROW_ID": "ROW_ID",
-                "ACTIVE_FLG": "ACTIVE_FLAG"
+                "ACTIVE_FLG": "ACTIVE_FLAG",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "AttributeDefinition",
-            "label": "AttributeDefinition",
+            "name": "ATTRIBUTEDEFINITION",
+            "label": "ATTRIBUTEDEFINITION",
             "table": [
                 "S_ISS_ATTR_DEF"
             ],
@@ -116,12 +121,13 @@
                 "DATA_TYPE_CD": "DATA_TYPE_CODE",
                 "DOMAIN_TYPE_CD": "DOMAIN_TYPE_CODE",
                 "LAST_VERS": "LAST_VERSION",
-                "MAX_VAL": "MAXIMUM_VALUE"
+                "MAX_VAL": "MAXIMUM_VALUE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "AttributeValue",
-            "label": "AttributeValue",
+            "name": "ATTRIBUTEVALUE",
+            "label": "ATTRIBUTEVALUE",
             "table": [
                 "S_ISS_ATTR_VAL"
             ],
@@ -133,12 +139,13 @@
                 "VOD_ID": "VOD_ID",
                 "FIRST_VERS": "FIRST_VERSION",
                 "ROW_ID": "ROW_ID",
-                "SEQ_NUM": "SEQUENCE_NUMBER"
+                "SEQ_NUM": "SEQUENCE_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "AttributeValueTranslation",
-            "label": "AttributeValueTranslation",
+            "name": "ATTRIBUTEVALUETRANSLATION",
+            "label": "ATTRIBUTEVALUETRANSLATION",
             "table": [
                 "S_ISS_ATRV_LANG"
             ],
@@ -146,12 +153,13 @@
                 "ROW_ID": "ROW_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LIC_VALUE": "LANGUAGE_INDEPENDENT_CODE_VALUE",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ProductDefinition",
-            "label": "ProductDefinition",
+            "name": "PRODUCTDEFINITION",
+            "label": "PRODUCTDEFINITION",
             "table": [
                 "S_PROD_INT"
             ],
@@ -187,12 +195,13 @@
                 "PROMO_INSTANCE_CD": "PROMOTION_INSTANCE_CODE",
                 "PROMO_TYPE_CD": "PROMOTION_TYPE_CODE",
                 "UOM_CD": "UNIT_OF_MEASURE_CODE",
-                "PRICE_TYPE_CD": "PRICE_TYPE_CD"
+                "PRICE_TYPE_CD": "PRICE_TYPE_CD",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionDefinition",
-            "label": "PromotionDefinition",
+            "name": "PROMOTIONDEFINITION",
+            "label": "PROMOTIONDEFINITION",
             "table": [
                 "S_PROD_INT"
             ],
@@ -229,12 +238,13 @@
                 "PROMO_INSTANCE_CD": "PROMOTION_INSTANCE_CODE",
                 "PROMO_TYPE_CD": "PROMOTION_TYPE_CODE",
                 "UOM_CD": "UNIT_OF_MEASURE_CODE",
-                "PRICE_TYPE_CD": "PRICE_TYPE_CD"
+                "PRICE_TYPE_CD": "PRICE_TYPE_CD",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectDefinition",
-            "label": "ObjectDefinition",
+            "name": "OBJECTDEFINITION",
+            "label": "OBJECTDEFINITION",
             "table": [
                 "S_ISS_OBJ_DEF"
             ],
@@ -250,12 +260,13 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "PRE_PICK_CD": "PRE_PICK_CODE",
                 "SPN_DEFN_ID": "SMART_PART_NUMBER_DEFINITION_ID",
-                "OBJECT_NAME": "OBJECT_NAME"
+                "OBJECT_NAME": "OBJECT_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectDefinitionTranslation",
-            "label": "ObjectDefinitionTranslation",
+            "name": "OBJECTDEFINITIONTRANSLATION",
+            "label": "OBJECTDEFINITIONTRANSLATION",
             "table": [
                 "S_ISS_OBJD_LANG"
             ],
@@ -264,12 +275,13 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "OBJECT_NAME": "OBJECT_NAME",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectRelationship",
-            "label": "ObjectRelationship",
+            "name": "OBJECTRELATIONSHIP",
+            "label": "OBJECTRELATIONSHIP",
             "table": [
                 "S_ISS_SUB_OBJ"
             ],
@@ -303,12 +315,13 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "SUB_OBJ_TMPL_VER": "SUB_OBJECT_CLASS_VERSION",
                 "ORIG_ID": "ORIGINAL_ID",
-                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE"
+                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectRelationshipDomain",
-            "label": "ObjectRelationshipDomain",
+            "name": "OBJECTRELATIONSHIPDOMAIN",
+            "label": "OBJECTRELATIONSHIPDOMAIN",
             "table": [
                 "S_ISS_SUB_OBJ"
             ],
@@ -342,12 +355,12 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "SUB_OBJ_TMPL_VER": "SUB_OBJECT_CLASS_VERSION",
                 "ORIG_ID": "ORIGINAL_ID",
-                "SUB_OBJ_TYPE_CD": "SUB_OBJECT_TYPE_CODE"
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectRelationshipTranslation",
-            "label": "ObjectRelationshipTranslation",
+            "name": "OBJECTRELATIONSHIPTRANSLATION",
+            "label": "OBJECTRELATIONSHIPTRANSLATION",
             "table": [
                 "S_ISS_SOBJ_LANG"
             ],
@@ -355,12 +368,13 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ROW_ID": "ROW_ID",
-                "SUB_OBJ_NAME": "RELATIONSHIP_NAME"
+                "SUB_OBJ_NAME": "RELATIONSHIP_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectUIProperty",
-            "label": "ObjectUIProperty",
+            "name": "OBJECTUIPROPERTY",
+            "label": "OBJECTUIPROPERTY",
             "table": [
                 "S_ISS_OBUI_PROP"
             ],
@@ -374,12 +388,13 @@
                 "PROP_NAME": "PROPERTY_NAME",
                 "ROW_ID": "ROW_ID",
                 "ORIG_ID": "ORIGINAL_ID",
-                "ITEM_TYPE_CD": "ITEM_TYPE_CODE"
+                "ITEM_TYPE_CD": "ITEM_TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectUIPropertyTranslation",
-            "label": "ObjectUIPropertyTranslation",
+            "name": "OBJECTUIPROPERTYTRANSLATION",
+            "label": "OBJECTUIPROPERTYTRANSLATION",
             "table": [
                 "S_ISS_UIPR_LANG"
             ],
@@ -387,12 +402,13 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "ITEM_VALUE_SPEC": "ITEM_VALUE_SPECIFICATION",
                 "ROW_ID": "ROW_ID",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "LinkedItem",
-            "label": "LinkedItem",
+            "name": "LINKEDITEM",
+            "label": "LINKEDITEM",
             "table": [
                 "S_ISS_OBJ_LITEM"
             ],
@@ -415,12 +431,13 @@
                 "BUSOBJ_NAME": "BUSINESS_OBJECT_NAME",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "ORIG_ID": "ORIGINAL_ID",
-                "VOD_ID": "VOD_ID"
+                "VOD_ID": "VOD_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "Resource",
-            "label": "Resource",
+            "name": "RESOURCES",
+            "label": "RESOURCES",
             "table": [
                 "S_ISS_OBJ_RSRC"
             ],
@@ -434,12 +451,13 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "RSRC_NAME": "RESOURCE_NAME",
                 "ROW_ID": "ROW_ID",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "Script",
-            "label": "Script",
+            "name": "SCRIPT",
+            "label": "SCRIPT",
             "table": [
                 "S_ISS_OBJ_SCRPT"
             ],
@@ -457,12 +475,13 @@
                 "VOD_ID": "VOD_ID",
                 "ORIG_ID": "ORIGINAL_ID",
                 "ROW_ID": "ROW_ID",
-                "SCRIPT_NAME": "SCRIPT_NAME"
+                "SCRIPT_NAME": "SCRIPT_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectAttribute",
-            "label": "ObjectAttribute",
+            "name": "OBJECTATTRIBUTE",
+            "label": "OBJECTATTRIBUTE",
             "table": [
                 "S_ISS_OBJ_ATTR"
             ],
@@ -492,12 +511,13 @@
                 "ORIG_ID": "ORIGINAL_ID",
                 "PRE_PICK_CD": "PRE_PICK_CODE",
                 "ATTR_DEF_VER": "ATTRIBUTE_DEFINITION_VERSION",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ObjectAttributeTranslation",
-            "label": "ObjectAttributeTranslation",
+            "name": "OBJECTATTRIBUTETRANSLATION",
+            "label": "OBJECTATTRIBUTETRANSLATION",
             "table": [
                 "S_ISS_OBAT_LANG"
             ],
@@ -506,12 +526,13 @@
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
                 "LOCAL_NAME": "LOCAL_NAME",
                 "ROW_ID": "ROW_ID",
-                "LANG_ID": "LANGUAGE_ID"
+                "LANG_ID": "LANGUAGE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ConstraintRule",
-            "label": "ConstraintRule",
+            "name": "CONSTRAINTRULE",
+            "label": "CONSTRAINTRULE",
             "table": [
                 "S_ISS_OBJ_CFGRL"
             ],
@@ -529,12 +550,13 @@
                 "RULE_NAME": "RULE_NAME",
                 "RULE_COMMENTS": "RULE_COMMENTS",
                 "ROW_ID": "ROW_ID",
-                "LAST_VERS": "LAST_VERSION"
+                "LAST_VERS": "LAST_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "ConstraintRuleTranslation",
-            "label": "ConstraintRuleTranslation",
+            "name": "CONSTRAINTRULETRANSLATION",
+            "label": "CONSTRAINTRULETRANSLATION",
             "table": [
                 "S_ISS_CFRL_LANG"
             ],
@@ -542,12 +564,13 @@
                 "LANG_ID": "LANGUAGE_ID",
                 "ROW_ID": "ROW_ID",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
-                "PAR_ROW_ID": "PARENT_ROW_ID"
+                "PAR_ROW_ID": "PARENT_ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "UIOption",
-            "label": "UIOption",
+            "name": "UIOPTION",
+            "label": "UIOPTION",
             "table": [
                 "S_ISS_UI_OPTION"
             ],
@@ -563,12 +586,13 @@
                 "FIRST_VERS": "FIRST_VERSION",
                 "PR_RESP_ID": "PRIMARY_RESPONSIBILITY_ID",
                 "UI_CTRL_STYLE_ID": "USER_INTERFACE_CONTROL_STYLE_ID",
-                "UI_FRAME_STYLE_ID": "USER_INTERFACE_FRAME_STYLE_ID"
+                "UI_FRAME_STYLE_ID": "USER_INTERFACE_FRAME_STYLE_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "UIResponsibility",
-            "label": "UIResponsibility",
+            "name": "UIRESPONSIBILITY",
+            "label": "UIRESPONSIBILITY",
             "table": [
                 "S_ISS_UIOP_RESP"
             ],
@@ -579,12 +603,13 @@
                 "ROW_ID": "ROW_ID",
                 "FIRST_VERS": "FIRST_VERSION",
                 "RESP_ID": "RESPONSIBILITY_ID",
-                "ORIG_ID": "ORIGINAL_ID"
+                "ORIG_ID": "ORIGINAL_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "UIGroup",
-            "label": "UIGroup",
+            "name": "UIGROUP",
+            "label": "UIGROUP",
             "table": [
                 "S_ISS_UIOPT_GRP"
             ],
@@ -599,12 +624,12 @@
                 "UI_OPTION_ID": "USER_INTERFACE_OPTION_ID",
                 "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME",
                 "FIRST_VERS": "FIRST_VERSION",
-                "LAST_UPD": "LAST_UPDATED"
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "UIGroupTranslation",
-            "label": "UIGroupTranslation",
+            "name": "UIGROUPTRANSLATION",
+            "label": "UIGROUPTRANSLATION",
             "table": [
                 "S_ISS_UIGR_LANG"
             ],
@@ -612,12 +637,13 @@
                 "ROW_ID": "ROW_ID",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LANG_ID": "LANGUAGE_ID",
-                "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME"
+                "UI_GROUP_NAME": "USER_INTERFACE_GROUP_NAME",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "UIGroupItem",
-            "label": "UIGroupItem",
+            "name": "UIGROUPITEM",
+            "label": "UIGROUPITEM",
             "table": [
                 "S_ISS_UIGR_ITEM"
             ],
@@ -633,12 +659,13 @@
                 "ITEM_NAME": "ITEM_NAME",
                 "ITEM_ID": "ITEM_ID",
                 "PATH_SPEC": "PATH_SPECIFICATION",
-                "VOD_ID": "VOD_ID"
+                "VOD_ID": "VOD_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionMessages",
-            "label": "PromotionMessages",
+            "name": "PROMOTIONMESSAGES",
+            "label": "PROMOTIONMESSAGES",
             "table": [
                 "S_PROD_INT_LANG"
             ],
@@ -647,12 +674,13 @@
                 "REASON_TXT": "REASON_TEXT",
                 "LANG_ID": "LANGUAGE_ID",
                 "ROW_ID": "ROW_ID",
-                "DESC_TEXT": "DESCRIPTIVE_TEXT"
+                "DESC_TEXT": "DESCRIPTIVE_TEXT",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionItem",
-            "label": "PromotionItem",
+            "name": "PROMOTIONITEM",
+            "label": "PROMOTIONITEM",
             "table": [
                 "S_PROM_ITEM"
             ],
@@ -689,12 +717,13 @@
                 "DFLT_SVC_ACCNT_CD": "DEFAULT_SERVICE_ACCOUNT",
                 "COMMIT_PRD_UOM_CD": "COMMIT_PERIOD_UNIT_OF_MEASURE",
                 "GRACE_PRD_UOM_CD": "GRACE_PERIOD_UNIT_OF_MEASURE",
-                "TYPE_CD": "TYPE_CODE"
+                "TYPE_CD": "TYPE_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionItemTranslation",
-            "label": "PromotionItemTranslation",
+            "name": "PROMOTIONITEMTRANSLATION",
+            "label": "PROMOTIONITEMTRANSLATION",
             "table": [
                 "S_PROM_ITM_LANG"
             ],
@@ -702,12 +731,13 @@
                 "DESC_TEXT": "DESCRIPTION_TEXT",
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "LANG_ID": "LANGUAGE_ID",
-                "ROW_ID": "ROW_ID"
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionItemXA",
-            "label": "PromotionItemXA",
+            "name": "PROMOTIONITEMXA",
+            "label": "PROMOTIONITEMXA",
             "table": [
                 "S_PROM_ITEM_XA"
             ],
@@ -715,24 +745,26 @@
                 "ATTR_NAME": "ATTRIBUTE_NAME",
                 "COND_ACTION_CD": "CONDITIONAL_ACTION_CODE",
                 "PROM_ITEM_ID": "PROMOTION_ITEM_ID",
-                "ROW_ID": "ROW_ID"
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionItemVal",
-            "label": "PromotionItemVal",
+            "name": "PROMOTIONITEMVAL",
+            "label": "PROMOTIONITEMVAL",
             "table": [
                 "S_PROMITM_VAL"
             ],
             "properties": {
                 "ROW_ID": "ROW_ID",
                 "ATTR_VAL": "ATTRIBUTE_VALUE",
-                "PAR_ROW_ID": "PARENT_ROW_ID"
+                "PAR_ROW_ID": "PARENT_ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionCharge",
-            "label": "PromotionCharge",
+            "name": "PROMOTIONCHARGE",
+            "label": "PROMOTIONCHARGE",
             "table": [
                 "S_PROM_CHRG"
             ],
@@ -746,12 +778,13 @@
                 "CHARGE_AMT": "CHARGE_AMOUNT",
                 "CHG_AMT_CUR_CD": "CHARGE_AMOUNT_CURRENCY_CODE",
                 "GRACE_PRD_UOM_CD": "GRACE_PERIOD_UNIT_OF_MEASURE",
-                "CHG_AMT_EXCH_DT": "CHARGE_AMOUNT_EXCHANGE_DATE"
+                "CHG_AMT_EXCH_DT": "CHARGE_AMOUNT_EXCHANGE_DATE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionMergeSplit",
-            "label": "PromotionMergeSplit",
+            "name": "PROMOTIONMERGESPLIT",
+            "label": "PROMOTIONMERGESPLIT",
             "table": [
                 "S_PROM_OPER"
             ],
@@ -761,22 +794,21 @@
                 "DESC_TEXT": "OPERATION_DESCRIPTION",
                 "PENALTY_CURCY_CD": "PENALTY_AMOUNT_CURRENCY_CODE",
                 "NAME": "OPERATION_NAME",
-                
                 "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG",
                 "DSP_PRORTD_CHG_FLG": "DISPLAY_PRORATED_CHARGE_FLAG",
                 "PROD_ID": "PROMOTION_PRODUCT_ID",
                 "PRORATE_PLAN_ID": "PRO_RATED_PLAN_ID",
                 "ROW_ID": "ROW_ID",
-                
                 "AGGR_DURATION_CD": "AGGR_DURATION_CD",
                 "TYPE_CD": "PROMOTION_OPERATION_TYPE",
                 "DURATION_CD": "DURATION_CODE",
-                "COMMIT_START_CD": "COMMIT_START_CODE"
+                "COMMIT_START_CD": "COMMIT_START_CODE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionMergeSplitComp",
-            "label": "PromotionMergeSplitComp",
+            "name": "PROMOTIONMERGESPLITCOMP",
+            "label": "PROMOTIONMERGESPLITCOMP",
             "table": [
                 "S_PROM_OPER_CPT"
             ],
@@ -790,20 +822,19 @@
                 "MAX_QTY": "MAXIMUM_QUANTITY",
                 "PENALTY_CURCY_CD": "PENALTY_AMOUNT_CURRENCY_CODE",
                 "PENALTY_AMT": "PENALTY_AMOUNT",
-                "PROM_OPER_ID": "OPERATION_ID",
+                "PROM_OPER_ID": "PROMOTION_OPERATION_ID",
                 "MIN_QTY": "MINIMUM_QUANTITY",
-                
-                
                 "ROW_ID": "ROW_ID",
                 "PRORATE_PLAN_ID": "PRORATE_PLAN",
                 "DFLT_QTY": "DEFAULT_QUANTITY",
                 "DSP_PRORTD_CHG_FLG": "DISPLAY_PRORATED_CHARGE_FLAG",
-                "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG"
+                "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionPricing",
-            "label": "PromotionPricing",
+            "name": "PROMOTIONPRICING",
+            "label": "PROMOTIONPRICING",
             "table": [
                 "S_PROM_PMTRX"
             ],
@@ -826,12 +857,13 @@
                 "PROD_LN_ID": "PRODUCT_LINE_ID",
                 "PRI_ADJ_VAL": "PRICING_ADJUSTMENT_VALUE",
                 "ROW_ID": "ROW_ID",
-                "ADJ_GROUP_ID": "ADJUSTMENT_GROUP_ID"
+                "ADJ_GROUP_ID": "ADJUSTMENT_GROUP_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "JointWorkspace",
-            "label": "JointWorkspace",
+            "name": "JOINTWORKSPACE",
+            "label": "JOINTWORKSPACE",
             "table": [
                 "S_ISS_JWS"
             ],
@@ -841,12 +873,13 @@
                 "STATUS_CD": "STATUS_CODE",
                 "ROW_ID": "ROW_ID",
                 "EFF_RELEASE_TS": "EFFECTIVE_RELEASE_TIMESTAMP",
-                "BASE_SYS_TS": "BASE_SYSTEM_TIMESTAMP"
+                "BASE_SYS_TS": "BASE_SYSTEM_TIMESTAMP",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "JointWorkspaceTranslation",
-            "label": "JointWorkspaceTranslation",
+            "name": "JOINTWORKSPACETRANSLATION",
+            "label": "JOINTWORKSPACETRANSLATION",
             "table": [
                 "S_ISS_JWS_LANG"
             ],
@@ -855,13 +888,13 @@
                 "PAR_ROW_ID": "PARENT_ROW_ID",
                 "JWS_NAME": "JOINT_WORKSPACE_NAME",
                 "DESC_TEXT": "DESCRIPTIVE_TEXT",
-                "ROW_ID": "ROW_ID"
-                
+                "ROW_ID": "ROW_ID",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "JointWorkspaceItem",
-            "label": "JointWorkspaceItem",
+            "name": "JOINTWORKSPACEITEM",
+            "label": "JOINTWORKSPACEITEM",
             "table": [
                 "S_ISS_JWS_ITEM"
             ],
@@ -870,18 +903,19 @@
                 "JWS_ID": "JOINT_WORKSPACE_ID",
                 "VOD_ID": "VOD_ID",
                 "VOD_STATUS_CD": "VERSIONED_OBJECT_DEFINITION_STATUS_CODE",
-                "VOD_VER": "VERSIONED_OBJECT_DEFINITION_VERSION"
+                "VOD_VER": "VERSIONED_OBJECT_DEFINITION_VERSION",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionUpgrade",
-            "label": "PromotionUpgrade",
+            "name": "PROMOTIONUPGRADE",
+            "label": "PROMOTIONUPGRADE",
             "table": [
                 "S_PROD_REL"
             ],
             "properties": {
                 "DSP_CMTMNT_DTL_FLG": "DISPLAY_COMMITMENT_FLAG",
-                "PAR_PROD_ID": "PARENT_PRODUCT",
+                "PAR_PROD_ID": "PARENT_PRODUCT_ID",
                 "COMMIT_START_CD": "COMMIT_START_CODE",
                 "DURATION_CD": "DURATION_CODE",
                 "VLDTN_STATUS_CD": "VALIDATION_STATUS_CODE",
@@ -897,7 +931,7 @@
                 "DSP_PRORTD_CHG_FLG": "DISPLAY_PRORATED_CHARGE_FLAG",
                 "PERCENT_SELL": "PERCENT_TO_SELL",
                 "SPLIT_PRI_FLG": "SPLIT_MENU_PRICING_FLAG",
-                "PROD_ID": "PRODUCT",
+                "PROD_ID": "PRODUCT_ID",
                 "DISP_CMPNT_PRI_FLG": "DISPLAY_COMPONENT_PRICE_FLAG",
                 "EFF_END_DATE": "EFF_END_DATE",
                 "ROW_ID": "ROW_ID",
@@ -912,12 +946,13 @@
                 "PEN_AMT_CUR_CD": "PENALTY_AMOUNT_CURRENCY_CODE",
                 "MENU_CRSE_NUM": "MENU_COURSE_NUMBER",
                 "REPORT_SEQ_NUM": "REPORT_SEQUENCE_NUMBER",
-                "SPLIT_MENU_PRI": "SPLIT_MENU_PRICE"
+                "SPLIT_MENU_PRI": "SPLIT_MENU_PRICE",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionConfigItem",
-            "label": "PromotionConfigItem",
+            "name": "PROMOTIONCONFIGITEM",
+            "label": "PROMOTIONCONFIGITEM",
             "table": [
                 "S_PRO_CFG_ITEM"
             ],
@@ -938,12 +973,12 @@
                 "MAX_PRI": "MAX_PRI",
                 "MIN_PRI": "MIN_PRI",
                 "EXCH_DT": "EXCH_DT",
-                "DB_LAST_UPD": "LAST_UPDATED_ON"
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         },
         {
-            "name": "PromotionTerm",
-            "label": "PromotionTerm",
+            "name": "PROMOTIONTERM",
+            "label": "PROMOTIONTERM",
             "table": [
                 "S_PROD_TRM_DESC"
             ],
@@ -953,482 +988,518 @@
                 "ROW_ID": "ROW_ID",
                 "TERM_TMPL_ID": "TERM_TEMPLATE_ID",
                 "SEQ_NUM": "SEQUENCE_NUMBER",
-                "PROD_ID": "AGREEMENT_ID",
+                "PROD_ID": "PRODUCT_ID",
                 "NAME": "NAME",
-                "ASSOCIATE_PROD_ID": "PRODUCT_ID",
-                "SECTION_NUM": "SECTION_NUMBER"
+                "ASSOCIATE_PROD_ID": "ASSOCIATE_PRODUCT_ID",
+                "SECTION_NUM": "SECTION_NUMBER",
+                "LAST_UPD": "LAST_UPDATED_ON"
             }
         }
     ],
     "relationships": [
         {
-            "type": "AttributeVod_HAS_TRANSLATION_VodTranslation",
-            "from": "AttributeVod",
-            "to": "VodTranslation",
+            "type": "ATTRIBUTEVOD_HAS_TRANSLATION_VODTRANSLATION",
+            "from": "ATTRIBUTEVOD",
+            "to": "VODTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ClassVod_HAS_TRANSLATION_VodTranslation",
-            "from": "ClassVod",
-            "to": "VodTranslation",
+            "type": "CLASSVOD_HAS_TRANSLATION_VODTRANSLATION",
+            "from": "CLASSVOD",
+            "to": "VODTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ProductVod_HAS_TRANSLATION_VodTranslation",
-            "from": "ProductVod",
-            "to": "VodTranslation",
+            "type": "PRODUCTVOD_HAS_TRANSLATION_VODTRANSLATION",
+            "from": "PRODUCTVOD",
+            "to": "VODTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "AttributeVod_HAS_VERSION_VodVersion",
-            "from": "AttributeVod",
-            "to": "VodVersion",
+            "type": "ATTRIBUTEVOD_HAS_VERSION_VODVERSION",
+            "from": "ATTRIBUTEVOD",
+            "to": "VODVERSION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_VERSION_VodVersion",
-            "from": "ClassVod",
-            "to": "VodVersion",
+            "type": "CLASSVOD_HAS_VERSION_VODVERSION",
+            "from": "CLASSVOD",
+            "to": "VODVERSION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_VERSION_VodVersion",
-            "from": "ProductVod",
-            "to": "VodVersion",
+            "type": "PRODUCTVOD_HAS_VERSION_VODVERSION",
+            "from": "PRODUCTVOD",
+            "to": "VODVERSION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "AttributeVod_HAS_DETAIL_AttributeDefinition",
-            "from": "AttributeVod",
-            "to": "AttributeDefinition",
+            "type": "ATTRIBUTEVOD_HAS_DETAIL_ATTRIBUTEDEFINITION",
+            "from": "ATTRIBUTEVOD",
+            "to": "ATTRIBUTEDEFINITION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "AttributeDefinition_HAS_VALUE_AttributeValue",
-            "from": "AttributeDefinition",
-            "to": "AttributeValue",
-            "from_key": "VOD_ID",
+            "type": "ATTRIBUTEVOD_HAS_VALUE_ATTRIBUTEVALUE",
+            "from": "ATTRIBUTEVOD",
+            "to": "ATTRIBUTEVALUE",
+            "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "AttributeValue_HAS_TRANSLATION_AttributeValueTranslation",
-            "from": "AttributeValue",
-            "to": "AttributeValueTranslation",
+            "type": "ATTRIBUTEVALUE_HAS_TRANSLATION_ATTRIBUTEVALUETRANSLATION",
+            "from": "ATTRIBUTEVALUE",
+            "to": "ATTRIBUTEVALUETRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ProductVod_HAS_DEFINITION_ProductDefinition",
-            "from": "ProductVod",
-            "to": "ProductDefinition",
+            "type": "PRODUCTVOD_HAS_DEFINITION_PRODUCTDEFINITION",
+            "from": "PRODUCTVOD",
+            "to": "PRODUCTDEFINITION",
             "from_key": "OBJECT_NUMBER",
             "to_key": "CONFIGURATION_MODEL_ID"
         },
         {
-            "type": "ProductVod_HAS_DEFINITION_PromotionDefinition",
-            "from": "ProductVod",
-            "to": "PromotionDefinition",
+            "type": "PRODUCTVOD_HAS_DEFINITION_PROMOTIONDEFINITION",
+            "from": "PRODUCTVOD",
+            "to": "PROMOTIONDEFINITION",
             "from_key": "OBJECT_NUMBER",
             "to_key": "CONFIGURATION_MODEL_ID"
         },
         {
-            "type": "ClassVod_HAS_DEFINITION_ObjectDefinition",
-            "from": "ClassVod",
-            "to": "ObjectDefinition",
+            "type": "CLASSVOD_HAS_DEFINITION_OBJECTDEFINITION",
+            "from": "CLASSVOD",
+            "to": "OBJECTDEFINITION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_DEFINITION_ObjectDefinition",
-            "from": "ProductVod",
-            "to": "ObjectDefinition",
+            "type": "PRODUCTVOD_HAS_DEFINITION_OBJECTDEFINITION",
+            "from": "PRODUCTVOD",
+            "to": "OBJECTDEFINITION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ObjectDefinition_HAS_TRANSLATION_ObjectDefinitionTranslation",
-            "from": "ObjectDefinition",
-            "to": "ObjectDefinitionTranslation",
+            "type": "OBJECTDEFINITION_HAS_TRANSLATION_OBJECTDEFINITIONTRANSLATION",
+            "from": "OBJECTDEFINITION",
+            "to": "OBJECTDEFINITIONTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ProductVod_HAS_RELATIONSHIP_ObjectRelationship",
-            "from": "ProductVod",
-            "to": "ObjectRelationship",
+            "type": "OBJECTDEFINITION_REFERS_TO_CLASSVOD",
+            "from": "OBJECTDEFINITION",
+            "to": "CLASSVOD",
+            "from_key": "PARENT_VOD_ID",
+            "to_key": "OBJECT_NUMBER"
+        },
+        {
+            "type": "PRODUCTVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP",
+            "from": "PRODUCTVOD",
+            "to": "OBJECTRELATIONSHIP",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_RELATIONSHIP_ObjectRelationship",
-            "from": "ClassVod",
-            "to": "ObjectRelationship",
+            "type": "CLASSVOD_HAS_RELATIONSHIP_OBJECTRELATIONSHIP",
+            "from": "CLASSVOD",
+            "to": "OBJECTRELATIONSHIP",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ObjectRelationship_HAS_RELATIONSHIP_DOMAIN_ObjectRelationshipDomain",
-            "from": "ObjectRelationship",
-            "to": "ObjectRelationshipDomain",
+            "type": "OBJECTRELATIONSHIP_HAS_RELATIONSHIP_DOMAIN_OBJECTRELATIONSHIPDOMAIN",
+            "from": "OBJECTRELATIONSHIP",
+            "to": "OBJECTRELATIONSHIPDOMAIN",
             "from_key": "ORIGINAL_ID",
             "to_key": "PARENT_RELATIONSHIP_ID"
         },
         {
-            "type": "ObjectRelationship_REFERS_TO_ClassVod",
-            "from": "ObjectRelationship",
-            "to": "ClassVod",
+            "type": "OBJECTRELATIONSHIP_REFERS_TO_CLASSVOD",
+            "from": "OBJECTRELATIONSHIP",
+            "to": "CLASSVOD",
             "from_key": "SUB_OBJECT_CLASS_ID",
             "to_key": "OBJECT_NUMBER"
         },
         {
-            "type": "ObjectRelationship_REFERS_TO_ProductVod",
-            "from": "ObjectRelationship",
-            "to": "ProductVod",
+            "type": "PRODUCTRELATION_REFERS_TO_PRODUCTVOD",
+            "from": "OBJECTRELATIONSHIP",
+            "to": "PRODUCTVOD",
             "from_key": "SUB_OBJECT_PRODUCT_ID",
             "to_key": "OBJECT_NUMBER"
         },
         {
-            "type": "ObjectRelationship_REFERS_TO_ProductVod",
-            "from": "ObjectRelationship",
-            "to": "ProductVod",
+            "type": "DEFAULTPRODUCT_REFERS_TO_PRODUCTVOD",
+            "from": "OBJECTRELATIONSHIP",
+            "to": "PRODUCTVOD",
             "from_key": "DEFAULT_SUB_OBJECT_PRODUCT_ID",
             "to_key": "OBJECT_NUMBER"
         },
         {
-            "type": "ObjectRelationshipDomain_REFERS_TO_ProductVod",
-            "from": "ObjectRelationshipDomain",
-            "to": "ProductVod",
+            "type": "OBJECTRELATIONSHIPDOMAIN_REFERS_TO_PRODUCTVOD",
+            "from": "OBJECTRELATIONSHIPDOMAIN",
+            "to": "PRODUCTVOD",
             "from_key": "SUB_OBJECT_PRODUCT_ID",
             "to_key": "OBJECT_NUMBER"
         },
         {
-            "type": "ObjectRelationship_HAS_TRANSLATION_ObjectRelationshipTranslation",
-            "from": "ObjectRelationship",
-            "to": "ObjectRelationshipTranslation",
+            "type": "OBJECTRELATIONSHIP_HAS_TRANSLATION_OBJECTRELATIONSHIPTRANSLATION",
+            "from": "OBJECTRELATIONSHIP",
+            "to": "OBJECTRELATIONSHIPTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ProductDefinition_HAS_PARENT_ProductDefinition",
-            "from": "ProductDefinition",
-            "to": "ProductDefinition",
-            "from_key": "PARENT_PRODUCT_INTERNAL_ID",
-            "to_key": "ROW_ID"
-        },
-        {
-            "type": "ClassVod_HAS_UIPROPERTY_ObjectUIProperty",
-            "from": "ClassVod",
-            "to": "ObjectUIProperty",
+            "type": "CLASSVOD_HAS_UIPROPERTY_OBJECTUIPROPERTY",
+            "from": "CLASSVOD",
+            "to": "OBJECTUIPROPERTY",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_UIPROPERTY_ObjectUIProperty",
-            "from": "ProductVod",
-            "to": "ObjectUIProperty",
+            "type": "PRODUCTVOD_HAS_UIPROPERTY_OBJECTUIPROPERTY",
+            "from": "PRODUCTVOD",
+            "to": "OBJECTUIPROPERTY",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ObjectUIProperty_HAS_TRANSLATION_ObjectUIPropertyTranslation",
-            "from": "ObjectUIProperty",
-            "to": "ObjectUIPropertyTranslation",
+            "type": "OBJECTUIPROPERTY_HAS_TRANSLATION_OBJECTUIPROPERTYTRANSLATION",
+            "from": "OBJECTUIPROPERTY",
+            "to": "OBJECTUIPROPERTYTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ProductVod_HAS_LINKEDITEM_LinkedItem",
-            "from": "ProductVod",
-            "to": "LinkedItem",
+            "type": "PRODUCTVOD_HAS_LINKEDITEM_LINKEDITEM",
+            "from": "PRODUCTVOD",
+            "to": "LINKEDITEM",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_LINKEDITEM_LinkedItem",
-            "from": "ClassVod",
-            "to": "LinkedItem",
+            "type": "CLASSVOD_HAS_LINKEDITEM_LINKEDITEM",
+            "from": "CLASSVOD",
+            "to": "LINKEDITEM",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_RESOURCE_Resource",
-            "from": "ProductVod",
-            "to": "Resource",
+            "type": "PRODUCTVOD_HAS_RESOURCE_RESOURCES",
+            "from": "PRODUCTVOD",
+            "to": "RESOURCES",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_RESOURCE_Resource",
-            "from": "ClassVod",
-            "to": "Resource",
+            "type": "CLASSVOD_HAS_RESOURCE_RESOURCES",
+            "from": "CLASSVOD",
+            "to": "RESOURCES",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_SCRIPT_Script",
-            "from": "ProductVod",
-            "to": "Script",
+            "type": "PRODUCTVOD_HAS_SCRIPT_SCRIPT",
+            "from": "PRODUCTVOD",
+            "to": "SCRIPT",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_SCRIPT_Script",
-            "from": "ClassVod",
-            "to": "Script",
+            "type": "CLASSVOD_HAS_SCRIPT_SCRIPT",
+            "from": "CLASSVOD",
+            "to": "SCRIPT",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_ATTRIBUTE_ObjectAttribute",
-            "from": "ProductVod",
-            "to": "ObjectAttribute",
+            "type": "PRODUCTVOD_HAS_ATTRIBUTE_OBJECTATTRIBUTE",
+            "from": "PRODUCTVOD",
+            "to": "OBJECTATTRIBUTE",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_ATTRIBUTE_ObjectAttribute",
-            "from": "ClassVod",
-            "to": "ObjectAttribute",
+            "type": "CLASSVOD_HAS_ATTRIBUTE_OBJECTATTRIBUTE",
+            "from": "CLASSVOD",
+            "to": "OBJECTATTRIBUTE",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ObjectAttribute_HAS_TRANSLATION_ObjectAttributeTranslation",
-            "from": "ObjectAttribute",
-            "to": "ObjectAttributeTranslation",
+            "type": "OBJECTATTRIBUTE_HAS_TRANSLATION_OBJECTATTRIBUTETRANSLATION",
+            "from": "OBJECTATTRIBUTE",
+            "to": "OBJECTATTRIBUTETRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ObjectAttribute_REFERS_TO_AttributeVod",
-            "from": "ObjectAttribute",
-            "to": "AttributeVod",
+            "type": "OBJECTATTRIBUTE_REFERS_TO_ATTRIBUTEVOD",
+            "from": "OBJECTATTRIBUTE",
+            "to": "ATTRIBUTEVOD",
             "from_key": "ATTRIBUTE_DEFINITION_ID",
             "to_key": "OBJECT_NUMBER"
         },
         {
-            "type": "ProductVod_HAS_RULE_ConstraintRule",
-            "from": "ProductVod",
-            "to": "ConstraintRule",
+            "type": "PRODUCTVOD_HAS_RULE_CONSTRAINTRULE",
+            "from": "PRODUCTVOD",
+            "to": "CONSTRAINTRULE",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_RULE_ConstraintRule",
-            "from": "ClassVod",
-            "to": "ConstraintRule",
+            "type": "CLASSVOD_HAS_RULE_CONSTRAINTRULE",
+            "from": "CLASSVOD",
+            "to": "CONSTRAINTRULE",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ConstraintRule_HAS_TRANSLATION_ConstraintRuleTranslation",
-            "from": "ConstraintRule",
-            "to": "ConstraintRuleTranslation",
+            "type": "CONSTRAINTRULE_HAS_TRANSLATION_CONSTRAINTRULETRANSLATION",
+            "from": "CONSTRAINTRULE",
+            "to": "CONSTRAINTRULETRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "ObjectDefinition_HAS_PARENT_ObjectDefinition",
-            "from": "ObjectDefinition",
-            "to": "ObjectDefinition",
+            "type": "OBJECTDEFINITION_HAS_PARENT_OBJECTDEFINITION",
+            "from": "OBJECTDEFINITION",
+            "to": "OBJECTDEFINITION",
             "from_key": "PARENT_VOD_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_PARENT_ObjectDefinition",
-            "from": "ProductVod",
-            "to": "ObjectDefinition",
+            "type": "PRODUCTVOD_HAS_PARENT_OBJECTDEFINITION",
+            "from": "PRODUCTVOD",
+            "to": "OBJECTDEFINITION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_VOD_ID"
         },
         {
-            "type": "ProductVod_HAS_UIOPTION_UIOption",
-            "from": "ProductVod",
-            "to": "UIOption",
+            "type": "PRODUCTVOD_HAS_UIOPTION_UIOPTION",
+            "from": "PRODUCTVOD",
+            "to": "UIOPTION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "ClassVod_HAS_UIOPTION_UIOption",
-            "from": "ClassVod",
-            "to": "UIOption",
+            "type": "CLASSVOD_HAS_UIOPTION_UIOPTION",
+            "from": "CLASSVOD",
+            "to": "UIOPTION",
             "from_key": "ROW_ID",
             "to_key": "VOD_ID"
         },
         {
-            "type": "UIOption_HAS_GROUP_UIGroup",
-            "from": "UIOption",
-            "to": "UIGroup",
+            "type": "UIOPTION_HAS_GROUP_UIGROUP",
+            "from": "UIOPTION",
+            "to": "UIGROUP",
             "from_key": "ORIGINAL_ID",
             "to_key": "USER_INTERFACE_OPTION_ID"
         },
         {
-            "type": "UIOption_HAS_RESP_UIResponsibility",
-            "from": "UIOption",
-            "to": "UIResponsibility",
+            "type": "UIOPTION_HAS_RESP_UIRESPONSIBILITY",
+            "from": "UIOPTION",
+            "to": "UIRESPONSIBILITY",
             "from_key": "ORIGINAL_ID",
             "to_key": "USER_INTERFACE_ID"
         },
         {
-            "type": "UIGroup_HAS_TRANSLATION_UIGroupTranslation",
-            "from": "UIGroup",
-            "to": "UIGroupTranslation",
+            "type": "UIGROUP_HAS_TRANSLATION_UIGROUPTRANSLATION",
+            "from": "UIGROUP",
+            "to": "UIGROUPTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "UIGroup_HAS_GROUPITEM_UIGroupItem",
-            "from": "UIGroup",
-            "to": "UIGroupItem",
+            "type": "UIGROUP_HAS_GROUPITEM_UIGROUPITEM",
+            "from": "UIGROUP",
+            "to": "UIGROUPITEM",
             "from_key": "ORIGINAL_ID",
             "to_key": "USER_INTERFACE_GROUP_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_MESSAGES_PromotionMessages",
-            "from": "PromotionDefinition",
-            "to": "PromotionMessages",
+            "type": "PROMOTIONDEFINITION_HAS_MESSAGES_PROMOTIONMESSAGES",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONMESSAGES",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "JointWorkspace_HAS_TRANSLATION_JointWorkspaceTranslation",
-            "from": "JointWorkspace",
-            "to": "JointWorkspaceTranslation",
+            "type": "JOINTWORKSPACE_HAS_TRANSLATION_JOINTWORKSPACETRANSLATION",
+            "from": "JOINTWORKSPACE",
+            "to": "JOINTWORKSPACETRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "JointWorkspace_HAS_ITEMS_JointWorkspaceItem",
-            "from": "JointWorkspace",
-            "to": "JointWorkspaceItem",
+            "type": "JOINTWORKSPACE_HAS_ITEMS_JOINTWORKSPACEITEM",
+            "from": "JOINTWORKSPACE",
+            "to": "JOINTWORKSPACEITEM",
             "from_key": "ROW_ID",
             "to_key": "JOINT_WORKSPACE_ID"
         },
         {
-            "type": "JointWorkspaceItem_HAS_ATTRIBUTE_AttributeVod",
-            "from": "JointWorkspaceItem",
-            "to": "AttributeVod",
+            "type": "JOINTWORKSPACEITEM_HAS_ATTRIBUTE_ATTRIBUTEVOD",
+            "from": "JOINTWORKSPACEITEM",
+            "to": "ATTRIBUTEVOD",
             "from_key": "VOD_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "JointWorkspaceItem_HAS_CLASS_ClassVod",
-            "from": "JointWorkspaceItem",
-            "to": "ClassVod",
+            "type": "JOINTWORKSPACEITEM_HAS_CLASS_CLASSVOD",
+            "from": "JOINTWORKSPACEITEM",
+            "to": "CLASSVOD",
             "from_key": "VOD_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "JointWorkspaceItem_HAS_PRODUCT_ProductVod",
-            "from": "JointWorkspaceItem",
-            "to": "ProductVod",
+            "type": "JOINTWORKSPACEITEM_HAS_PRODUCT_PRODUCTVOD",
+            "from": "JOINTWORKSPACEITEM",
+            "to": "PRODUCTVOD",
             "from_key": "VOD_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_ITEMS_PromotionItem",
-            "from": "PromotionDefinition",
-            "to": "PromotionItem",
+            "type": "PROMOTIONDEFINITION_HAS_ITEMS_PROMOTIONITEM",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONITEM",
             "from_key": "ROW_ID",
             "to_key": "PROMOTION_ID"
         },
         {
-            "type": "PromotionItem_REFERS_TO_ProductDefinition",
-            "from": "PromotionItem",
-            "to": "ProductDefinition",
+            "type": "PROMOTIONITEM_REFERS_TO_PRODUCTDEFINITION",
+            "from": "PROMOTIONITEM",
+            "to": "PRODUCTDEFINITION",
             "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "PromotionItem_HAS_TRANSLATION_PromotionItemTranslation",
-            "from": "PromotionItem",
-            "to": "PromotionItemTranslation",
+            "type": "PROMOTIONITEM_HAS_ROOT_PROMOTIONITEM",
+            "from": "PROMOTIONITEM",
+            "to": "PROMOTIONITEM",
+            "from_key": "ROOT_PROMOTION_ITEM_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONITEM_HAS_PARENT_PROMOTIONITEM",
+            "from": "PROMOTIONITEM",
+            "to": "PROMOTIONITEM",
+            "from_key": "PARENT_PROMOTION_ITEM_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONITEM_HAS_TRANSLATION_PROMOTIONITEMTRANSLATION",
+            "from": "PROMOTIONITEM",
+            "to": "PROMOTIONITEMTRANSLATION",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "PromotionItem_HAS_ATTRIBUTE_PromotionItemXA",
-            "from": "PromotionItem",
-            "to": "PromotionItemXA",
+            "type": "PROMOTIONITEM_HAS_ATTRIBUTE_PROMOTIONITEMXA",
+            "from": "PROMOTIONITEM",
+            "to": "PROMOTIONITEMXA",
             "from_key": "ROW_ID",
             "to_key": "PROMOTION_ITEM_ID"
         },
         {
-            "type": "PromotionItemXA_HAS_ATTRIBUTE_VAL_PromotionItemVal",
-            "from": "PromotionItemXA",
-            "to": "PromotionItemVal",
+            "type": "PROMOTIONITEMXA_HAS_ATTRIBUTE_VAL_PROMOTIONITEMVAL",
+            "from": "PROMOTIONITEMXA",
+            "to": "PROMOTIONITEMVAL",
             "from_key": "ROW_ID",
             "to_key": "PARENT_ROW_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_CHARGE_PromotionCharge",
-            "from": "PromotionDefinition",
-            "to": "PromotionCharge",
+            "type": "PROMOTIONDEFINITION_HAS_CHARGE_PROMOTIONCHARGE",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONCHARGE",
             "from_key": "ROW_ID",
             "to_key": "PROMOTION_ID"
         },
         {
-            "type": "PromotionItem_HAS_PRICING_PromotionPricing",
-            "from": "PromotionItem",
-            "to": "PromotionPricing",
-            "from_key": "PROMOTION_ID",
+            "type": "PROMOTIONDEFINITION_HAS_PRICING_PROMOTIONPRICING",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONPRICING",
+            "from_key": "ROW_ID",
             "to_key": "PROMOTION_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_MERGE_SPLIT_PromotionMergeSplit",
-            "from": "PromotionDefinition",
-            "to": "PromotionMergeSplit",
+            "type": "PROMOTIONPRICING_REFERS_TO_PRODUCTDEFINITION",
+            "from": "PROMOTIONPRICING",
+            "to": "PRODUCTDEFINITION",
+            "from_key": "PRODUCT_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONDEFINITION_HAS_MERGE_SPLIT_PROMOTIONMERGESPLIT",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONMERGESPLIT",
             "from_key": "ROW_ID",
             "to_key": "PROMOTION_PRODUCT_ID"
         },
         {
-            "type": "PromotionMergeSplit_HAS_MERGE_SPLIT_COMP_PromotionMergeSplitComp",
-            "from": "PromotionMergeSplit",
-            "to": "PromotionMergeSplitComp",
+            "type": "PROMOTIONMERGESPLIT_HAS_MERGE_SPLIT_COMP_PROMOTIONMERGESPLITCOMP",
+            "from": "PROMOTIONMERGESPLIT",
+            "to": "PROMOTIONMERGESPLITCOMP",
             "from_key": "ROW_ID",
-            "to_key": "OPERATION_ID"
+            "to_key": "PROMOTION_OPERATION_ID"
         },
         {
-            "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
-            "from": "PromotionUpgrade",
-            "to": "PromotionDefinition",
-            "from_key": "PRODUCT",
+            "type": "PROMOTIONMERGESPLITCOMP_REFERS_TO_PRODUCTDEFINITION",
+            "from": "PROMOTIONMERGESPLITCOMP",
+            "to": "PRODUCTDEFINITION",
+            "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "PromotionUpgrade_REFERS_TO_PromotionDefinition",
-            "from": "PromotionUpgrade",
-            "to": "PromotionDefinition",
-            "from_key": "PARENT_PRODUCT",
+            "type": "SOURCEPROMOTION_REFERS_TO_PROMOTIONDEFINITION",
+            "from": "PROMOTIONUPGRADE",
+            "to": "PROMOTIONDEFINITION",
+            "from_key": "PRODUCT_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "PromotionConfigItem_REFERS_TO_ProductDefinition",
-            "from": "PromotionConfigItem",
-            "to": "ProductDefinition",
+            "type": "TARGETPROMOTION_REFERS_TO_PROMOTIONDEFINITION",
+            "from": "PROMOTIONUPGRADE",
+            "to": "PROMOTIONDEFINITION",
+            "from_key": "PARENT_PRODUCT_ID",
+            "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONCONFIGITEM_REFERS_TO_PRODUCTDEFINITION",
+            "from": "PROMOTIONCONFIGITEM",
+            "to": "PRODUCTDEFINITION",
             "from_key": "PROD_ID",
             "to_key": "ROW_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_TERMS_PromotionTerm",
-            "from": "PromotionDefinition",
-            "to": "PromotionTerm",
+            "type": "PROMOTIONDEFINITION_HAS_TERMS_PROMOTIONTERM",
+            "from": "PROMOTIONDEFINITION",
+            "to": "PROMOTIONTERM",
             "from_key": "ROW_ID",
-            "to_key": "AGREEMENT_ID"
+            "to_key": "PRODUCT_ID"
         },
         {
-            "type": "PromotionDefinition_HAS_PARENT_PromotionDefinition",
-            "from": "PromotionDefinition",
-            "to": "PromotionDefinition",
-            "from_key": "PARENT_PRODUCT_INTERNAL_ID",
+            "type": "PROMOTIONTERM_REFERS_TO_PRODUCTDEFINITION",
+            "from": "PROMOTIONTERM",
+            "to": "PRODUCTDEFINITION",
+            "from_key": "ASSOCIATE_PRODUCT_ID",
             "to_key": "ROW_ID"
+        },
+        {
+            "type": "PROMOTIONITEM_DOMAIN_PRODUCTVOD",
+            "from": "PROMOTIONITEM",
+            "to": "PRODUCTVOD",
+            "from_key": "SUB_OBJECT_VOD_NUMBER",
+            "to_key": "OBJECT_NUMBER"
         }
     ]
 }
