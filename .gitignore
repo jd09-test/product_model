@@ -24,8 +24,6 @@ env/
 *.wallet/
 
 # Generated graph artifacts
-/OracleGraph/create_26ai_schema.sql
-/OracleGraph/property_graph_schema.sql
 /OracleGraph/*.sql
 
 # Logs
