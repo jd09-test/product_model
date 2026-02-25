@@ -1,6 +1,6 @@
 # Product Model Analyzer using Oracle Property Graph
 
-A toolkit for modeling, migrating, and querying Oracle 26ai Property Graphs from a Siebel CRM product catalog. It takes your existing Oracle 19c relational data, rebuilds it as a property graph on Oracle 26ai, and exposes the graph to AI assistants via a purpose-built MCP server so you can query it using natural language.
+A toolkit for querying Siebel CRM product catalog. It takes your existing Oracle 19c relational data, rebuilds it as a property graph on Oracle 26ai, and exposes the graph to AI assistants via a purpose-built MCP server so you can query it using natural language.
 
 ---
 
