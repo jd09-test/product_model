@@ -20,12 +20,13 @@ env/
 .idea/
 
 # Application secrets / config
-OracleGraph/config.json
+/OracleGraph/config.json
 *.wallet/
 
 # Generated graph artifacts
-OracleGraph/create_26ai_schema.sql
-OracleGraph/property_graph_schema.sql
+/OracleGraph/create_26ai_schema.sql
+/OracleGraph/property_graph_schema.sql
+/OracleGraph/*.sql
 
 # Logs
 *.log
