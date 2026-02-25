@@ -2,10 +2,11 @@
 # Install with: pip install -r requirements.txt
 
 # Oracle 23ai target database driver (thin mode, no Instant Client needed)
-python-oracledb>=2.0.0
+oracledb
 
-# Oracle 19c source database driver (thick mode, requires Oracle Instant Client)
-cx_Oracle>=8.3.0
 
 # MCP server framework used by property_graph_mcp.py
-fastmcp>=0.1.0
+fastmcp
+
+
+

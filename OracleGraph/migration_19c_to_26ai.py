@@ -624,8 +624,12 @@ def main() -> None:
     log("Connecting to 19c source DB ...")
     try:
         if oracle_client_path:
-            cx_Oracle.init_oracle_client(lib_dir=oracle_client_path)
-        src_conn = cx_Oracle.connect(**source_config)
+            oracledb.init_oracle_client(lib_dir=oracle_client_path)
+        src_conn = oracledb.connect(
+    user="sadmin",
+    password="sadmin",
+    dsn="phoenix610241.appsdev.fusionappsdphx1.oraclevcn.com:1551/qa241" # The alias defined in tnsnames.ora
+)
         log(f"Connected to source Oracle. Version: {src_conn.version}")
     except Exception as e:
         log(f"[FAIL] Could not connect to 19c source DB: {e}")
