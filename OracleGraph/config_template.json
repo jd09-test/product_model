@@ -1,0 +1,16 @@
+{
+    "19C_DSN":           "your_19c_dsn",
+    "19C_USER":          "your_19c_username",
+    "19C_PASS":          "your_19c_password",
+    "19C_SCHEMA":        "your_19c_schema",
+    "19C_CLIENT_PATH":   "/path/to/oracle/instant/client",
+    "26AI_USER":          "your_23ai_username",
+    "26AI_PASSWORD":      "your_23ai_password",
+    "26AI_DSN":           "your_23ai_dsn",
+    "26AI_CONFIG_DIR":    "/path/to/wallet/dir",
+    "26AI_WALLET_LOCATION": "/path/to/wallet/dir",
+    "26AI_WALLET_PASSWORD": "your_wallet_password",
+    "QUERY_DATE":        "2024-01-01",
+    "DATE_FORMAT":       "YYYY-MM-DD",
+    "BATCH_SIZE":        "500"
+}

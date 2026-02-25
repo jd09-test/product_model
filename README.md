@@ -65,22 +65,17 @@ All three scripts share a single `config.json` file. Create it in the `OracleGra
 
 ```json
 {
+    "19C_DSN":           "your_19c_dsn",
     "19C_USER":          "your_19c_username",
     "19C_PASS":          "your_19c_password",
-    "19C_DSN":           "your_19c_dsn",
     "19C_SCHEMA":        "your_19c_schema",
     "19C_CLIENT_PATH":   "/path/to/oracle/instant/client",
-
     "26AI_USER":          "your_23ai_username",
     "26AI_PASSWORD":      "your_23ai_password",
     "26AI_DSN":           "your_23ai_dsn",
     "26AI_CONFIG_DIR":    "/path/to/wallet/dir",
     "26AI_WALLET_LOCATION": "/path/to/wallet/dir",
     "26AI_WALLET_PASSWORD": "your_wallet_password",
-
-    "GRAPH_JSON_PATH":   "graph_model.json",
-    "DDL_OUTPUT_PATH":   "create_26ai_schema.sql",
-
     "QUERY_DATE":        "2024-01-01",
     "DATE_FORMAT":       "YYYY-MM-DD",
     "BATCH_SIZE":        "500"
@@ -90,11 +85,9 @@ All three scripts share a single `config.json` file. Create it in the `OracleGra
 | Key | What It's For |
 |---|---|
 | `19C_USER / PASS / DSN / SCHEMA` | Oracle 19c source database credentials |
-| `19C_CLIENT_PATH` | Path to Oracle Instant Client library (required by cx_Oracle) |
+| `19C_CLIENT_PATH` | Path to Oracle Instant Client library|
 | `26AI_USER / PASSWORD / DSN` | Oracle 26ai target database credentials |
 | `26AI_CONFIG_DIR / WALLET_LOCATION / WALLET_PASSWORD` | Oracle Wallet for 26ai TLS connection |
-| `GRAPH_JSON_PATH` | Default path to graph model JSON (can be overridden via CLI) |
-| `DDL_OUTPUT_PATH` | Default path for generated SQL output (can be overridden via CLI) |
 | `QUERY_DATE` | Incremental extract cut-off — only rows updated on or after this date are migrated |
 | `DATE_FORMAT` | Oracle `TO_DATE` format string for `QUERY_DATE` |
 | `BATCH_SIZE` | Number of rows per database write batch during migration |
@@ -150,10 +143,10 @@ Everything is driven by `graph_model.json`. This file describes your graph — w
 `migration_19c_to_26ai.py` handles the full three-step migration pipeline. Every step that touches a database requires your explicit confirmation before proceeding.
 
 ```bash 
-python OracleGraph/migration_19c_to_26ai.py \
-  --config      OracleGraph/config.json \
-  --graph_model OracleGraph/graph_model.json \
-  --ddl_output  OracleGraph/create_26ai_schema.sql
+python3 OracleGraph/migration_19c_to_26ai.py \
+  --config      config.json \
+  --graph_model graph_model.json \
+  --ddl_output  create_26ai_schema.sql
 ```
 
 ### Step 1 — DDL Generation
@@ -186,10 +179,10 @@ If confirmed, it connects to both databases and for each node:
 
 ```bash
 python3 OracleGraph/create_property_graph.py \
-  --graph_model OracleGraph/graph_model.json \
-  --pgql_out    OracleGraph/property_graph_schema.sql \
-  --graph_name  product_graph \
-  --config      OracleGraph/config.json
+  --graph_model graph_model.json \
+  --ddl_output    property_graph_schema.sql \
+  --graph_name  catalog_graph \
+  --config      config.json
 ```
 
 What happens:

@@ -43,8 +43,11 @@ import json
 import logging
 import re
 from typing import Dict, List, Tuple
+from pathlib import Path
 
-import oracledb as cx_Oracle 
+import oracledb
+
+SCRIPT_DIR = Path(__file__).parent
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -54,6 +57,27 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()],
 )
 log = logging.getLogger(__name__)
+
+
+
+def resolve_path(path_value: str) -> Path:
+    """
+    Resolve a path string to an absolute Path.
+
+    If the given path is already absolute, it is returned as-is.
+    If it is relative, it is resolved relative to the directory containing
+    this script (SCRIPT_DIR), not the current working directory.
+
+    Parameters:
+        path_value : A path string (relative or absolute).
+
+    Returns:
+        An absolute Path object.
+    """
+    path = Path(path_value)
+    if not path.is_absolute():
+        path = (SCRIPT_DIR / path).resolve()
+    return path
 
 
 # ── Config helpers ────────────────────────────────────────────────────────────
@@ -330,7 +354,7 @@ def execute_pgql_ddl(ddl_output: str, target_config: Dict) -> None:
 
     log.info("Connecting to Oracle 26ai (thin mode) ...")
     try:
-        conn = cx_Oracle.connect(**target_config)
+        conn = oracledb.connect(**target_config)
         log.info("Connected. Oracle version: %s", conn.version)
     except Exception as exc:
         log.error("Connection failed: %s", exc)
@@ -386,11 +410,22 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    config_path = resolve_path(args.config)
+    if not config_path.exists():
+        raise FileNotFoundError(f"Config file not found: {config_path}")
+
+    graph_model_path = resolve_path(
+        args.graph_model or "graph_model.json"
+    )
+    ddl_output_path = resolve_path(
+        args.ddl_output or "create_26ai_schema.sql"
+    )
+
     generate_pgql_graph(
-        json_path     = args.graph_model,
-        config_path   = args.config,
-        ddl_output = args.ddl_output,
-        graph_name    = args.graph_name,
+        json_path     = graph_model_path,
+        config_path   = config_path,
+        ddl_output = ddl_output_path,
+        graph_name    = args.graph_name
     )
 
 

@@ -3,15 +3,14 @@
   "19C_USER": "sadmin",
   "19C_PASS": "sadmin",
   "19C_SCHEMA": "ORA241122",
-  "GRAPH_JSON_PATH": "graph_model.json",
-  "QUERY_DATE": "22-02-26",
-  "DATE_FORMAT":"DD-MM-YY",
-  "BATCH_SIZE": 20000,
-  "19C_CLIENT_PATH": "/Users/darshanjaju/instantclient_19_8",
+  "19C_CLIENT_PATH": "/Users/parulgu/Software/instant_client23.3",
   "26AI_USER": "ADMIN",
   "26AI_PASSWORD": "Cxpassword@123",
   "26AI_DSN": "(description=(retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-phoenix-1.oraclecloud.com))(connect_data=(service_name=zo9pvg9f3zd89xb_graphstudiocheck1_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))",
-  "26AI_CONFIG_DIR": "/Users/darshanjaju/Wallet_graphstudiocheck1",
-  "26AI_WALLET_LOCATION": "/Users/darshanjaju/Wallet_graphstudiocheck1",
-  "26AI_WALLET_PASSWORD": "Asdfg@12345"
+  "26AI_CONFIG_DIR": "/Users/parulgu/Documents/Work/2026/Oracle26ai/Wallet_graphstudiocheck1",
+  "26AI_WALLET_LOCATION": "/Users/parulgu/Documents/Work/2026/Oracle26ai/Wallet_graphstudiocheck1",
+  "26AI_WALLET_PASSWORD": "Asdfg@12345",
+  "QUERY_DATE": "22-02-26",
+  "DATE_FORMAT":"DD-MM-YY",
+  "BATCH_SIZE": 20000
 }
