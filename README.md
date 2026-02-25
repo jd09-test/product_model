@@ -24,14 +24,9 @@ The toolkit has three main jobs:
 OracleGraph/
 ├── config.json                   # Your database credentials (not committed to git)
 ├── graph_model.json              # Defines your graph — nodes, edges, properties
-│
 ├── migration_19c_to_26ai.py      # Script 1: Migrates schema + data from 19c → 26ai
 ├── create_property_graph.py      # Script 2: Generates CREATE PROPERTY GRAPH DDL
 ├── property_graph_mcp.py         # Script 3: MCP server for AI-assisted PGQL queries
-│
-├── create_26ai_schema.sql        # Generated output: relational staging table DDL
-├── property_graph_schema.sql     # Generated output: CREATE PROPERTY GRAPH statement
-│
 ├── requirements.txt              # Python dependencies
 ├── use_case.txt                  # Ready-to-use PGQL query examples and prompts
 └── rules.md                      # Domain rules that guide safe PGQL query generation
