@@ -149,8 +149,8 @@ Everything is driven by `graph_model.json`. This file describes your graph — w
 
 `migration_19c_to_26ai.py` handles the full three-step migration pipeline. Every step that touches a database requires your explicit confirmation before proceeding.
 
-```bash
-python3 OracleGraph/migration_19c_to_26ai.py \
+```bash 
+python OracleGraph/migration_19c_to_26ai.py \
   --config      OracleGraph/config.json \
   --graph_model OracleGraph/graph_model.json \
   --ddl_output  OracleGraph/create_26ai_schema.sql

@@ -1,0 +1,31 @@
+# macOS artifacts
+.DS_Store
+
+# Python cache & build outputs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor settings
+.vscode/
+.idea/
+
+# Application secrets / config
+OracleGraph/config.json
+*.wallet/
+
+# Generated graph artifacts
+OracleGraph/create_26ai_schema.sql
+OracleGraph/property_graph_schema.sql
+
+# Logs
+*.log
