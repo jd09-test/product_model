@@ -22,14 +22,14 @@ The toolkit has three main jobs:
 
 ```
 OracleGraph/
-├── config.json                   # Your database credentials (not committed to git)
-├── graph_model.json              # Defines your graph — nodes, edges, properties
-├── migration_19c_to_26ai.py      # Script 1: Migrates schema + data from 19c → 26ai
-├── create_property_graph.py      # Script 2: Generates CREATE PROPERTY GRAPH DDL
-├── property_graph_mcp.py         # Script 3: MCP server for AI-assisted PGQL queries
+  ├── config.json                   # Your database credentials (not committed to git)
+  ├── graph_model.json              # Defines your graph — nodes, edges, properties
+  ├── migration_19c_to_26ai.py      # Script 1: Migrates schema + data from 19c → 26ai
+  ├── create_property_graph.py      # Script 2: Generates CREATE PROPERTY GRAPH DDL
+  ├── property_graph_mcp.py         # Script 3: MCP server for AI-assisted PGQL queries
+  ├── use_case.txt                  # Ready-to-use PGQL query examples and prompts
+  └── rules.md                      # Domain rules that guide safe PGQL query generation
 ├── requirements.txt              # Python dependencies
-├── use_case.txt                  # Ready-to-use PGQL query examples and prompts
-└── rules.md                      # Domain rules that guide safe PGQL query generation
 ```
 
 > **`config.json` is never committed to source control.** Copy the template in the Configuration section below, fill in your credentials, and keep it local.
