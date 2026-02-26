@@ -29,7 +29,7 @@ OracleGraph/
   ├── property_graph_mcp.py         # Script 3: MCP server for AI-assisted PGQL queries
   ├── use_case.txt                  # Ready-to-use PGQL query examples and prompts
   └── rules.md                      # Domain rules that guide safe PGQL query generation
-├── requirements.txt              # Python dependencies
+├── requirements.txt                # Python dependencies
 ```
 
 > **`config.json` is never committed to source control.** Copy the template in the Configuration section below, fill in your credentials, and keep it local.
