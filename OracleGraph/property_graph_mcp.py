@@ -16,13 +16,24 @@ Setup:
 """
 
 import json
+import logging
 import time
 import traceback
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any
 
+import oracledb
 from mcp.server.fastmcp import FastMCP
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+
+logging.basicConfig(
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    level=logging.INFO,
+    handlers=[logging.StreamHandler()],
+)
+log = logging.getLogger(__name__)
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
@@ -34,42 +45,69 @@ with CONFIG_PATH.open() as f:
 
 mcp = FastMCP("OracleGraph")
 
-# ── DB Connection ─────────────────────────────────────────────────────────────
+# ── Connection Pool ───────────────────────────────────────────────────────────
 
-def _get_conn():
-    """Open and return a fresh Oracle DB connection using config.json credentials."""
-    import oracledb
-    return oracledb.connect(
-        user            = CONFIG["26AI_USER"],
-        password        = CONFIG["26AI_PASSWORD"],
-        dsn             = CONFIG["26AI_DSN"],
-        config_dir      = CONFIG["26AI_CONFIG_DIR"],
-        wallet_location = CONFIG["26AI_WALLET_LOCATION"],
-        wallet_password = CONFIG["26AI_WALLET_PASSWORD"],
-    )
+_pool: oracledb.ConnectionPool | None = None
+
+
+def _get_pool() -> oracledb.ConnectionPool:
+    """
+    Return the shared connection pool, creating it on first call.
+
+    Uses a pool of 2–10 connections so that bursts of concurrent tool calls
+    (e.g. schema_vertices + schema_edges fetched in parallel by an LLM) do not
+    each pay the full connection-open overhead, and idle connections are returned
+    to the pool automatically.
+
+    Pool parameters:
+        min  = 2  — two connections kept warm at all times
+        max  = 10 — hard ceiling; callers block if all are in use
+        increment = 1 — grow by one connection at a time under load
+    """
+    global _pool
+    if _pool is None:
+        log.info("Initialising Oracle connection pool (min=2, max=10) ...")
+        _pool = oracledb.create_pool(
+            user            = CONFIG["26AI_USER"],
+            password        = CONFIG["26AI_PASSWORD"],
+            dsn             = CONFIG["26AI_DSN"],
+            config_dir      = CONFIG["26AI_CONFIG_DIR"],
+            wallet_location = CONFIG["26AI_WALLET_LOCATION"],
+            wallet_password = CONFIG["26AI_WALLET_PASSWORD"],
+            min             = 2,
+            max             = 10,
+            increment       = 1,
+        )
+        log.info("Connection pool ready.")
+    return _pool
 
 
 def _run_sql(sql: str, params: dict = None) -> list[dict[str, Any]]:
     """
-    Internal helper: execute a SQL statement and return rows as a list of dicts.
-    Handles connection lifecycle and error reporting.
+    Internal helper: acquire a pooled connection, execute a SQL statement,
+    and return rows as a list of dicts.
+
+    The connection is returned to the pool via conn.close() in the finally block
+    (pool connections are not actually closed — close() releases them back).
     """
     conn = cursor = None
     try:
-        conn = _get_conn()
+        conn = _get_pool().acquire()
         cursor = conn.cursor()
         t0 = time.time()
         cursor.execute(sql, params or {})
         elapsed = round(time.time() - t0, 2)
+        log.debug("Query completed in %.2fs", elapsed)
         cols = [d[0] for d in cursor.description]
         rows = [dict(zip(cols, [str(c) if c is not None else None for c in row]))
                 for row in cursor.fetchall()]
         return [{"elapsed": elapsed, "columns": cols, "rows": rows}]
     except Exception as exc:
+        log.error("Query failed: %s", exc)
         return [{"error": str(exc), "traceback": traceback.format_exc()}]
     finally:
         if cursor: cursor.close()
-        if conn:   conn.close()
+        if conn:   conn.close()  # returns connection to pool
 
 
 def _group_by_label(results: list[dict], label_key: str, drop_key: str) -> list[dict]:
