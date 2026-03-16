@@ -258,12 +258,11 @@ Register the server by adding the following block to your client's MCP server co
   "mcpServers": {
     "OracleGraphMCP": {
       "autoApprove": [
-        "get_nodetypes_properties",
-        "get_relationshiptypes_properties",
-        "get_vertex_label_details",
-        "get_edge_relationship_details",
-        "get_filtered_vertex_label_details",
-        "run_pgql_query"
+        "query",
+        "schema_vertices",
+        "schema_vertices_filter",
+        "schema_edges",
+        "schema_edges_filter"
       ],
       "disabled": false,
       "timeout": 60,
