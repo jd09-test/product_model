@@ -78,3 +78,6 @@ In `product_graph`, promotions live under the `PROMOTIONDEFINITION` label (not `
 | **Join keys from schema** | Always use `source_vertex_column → target_vertex_column` as listed in Edge table above |
 | **Usage queries use UNION** | Never use OPTIONAL MATCH — always UNION separate paths |
 | **Edge direction in Oracle PGQL** | Use `-[IS EDGE_LABEL]->` (undirected `-[IS EDGE_LABEL]-` also accepted) |
+
+## NULL CHECKS
+- When checking for populated fields, use `IS NOT NULL` only; do not add empty-string (`<> ''`) checks unless explicitly requested.
