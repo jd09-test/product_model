@@ -1,3 +1,9 @@
+---
+name: siebel-product-model-analyzer
+description:
+  Rules and reference guide for analyzing Siebel CRM product models using Oracle PGQL / SQL property graph queries against an Oracle 26ai database via the GRAPH_TABLE syntax and MCP tools. Use this skill whenever the user wants to query the product graph, write PGQL, inspect product model structure, find domain counts, detect hot spots, identify inactive or misconfigured products, traverse product-class-relationship hierarchies, check promotion membership, find product ancestors, or analyze constraint rules. Also trigger for questions like "which products reference X", "find empty relationships", "who uses this product", "check the graph schema", or any Siebel product catalog analysis — even if the user does not explicitly say "PGQL" or "graph".
+---
+
 # Oracle PGQL Complete Reference Guide
 
 > **Graph Name:** Always ask user what is graph_name  

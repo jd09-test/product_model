@@ -1,4 +1,4 @@
-# Product Model Analyzer using Oracle Property Graph
+# Property Graph Based Product Analyzer Toolkit
 
 A toolkit for querying Siebel CRM product catalog. It takes your existing Oracle 19c relational data, rebuilds it as a property graph on Oracle 26ai, and exposes the graph to AI assistants via a purpose-built MCP server so you can query it using natural language.
 
@@ -36,11 +36,11 @@ OracleGraph/
 
 ---
 
-## Setup
+## Step-by-Step Implementation
 
 Follow these steps in order before running any scripts.
 
-### Step 1 — Install Python
+### Step 1 — Set Up the Environment
 
 Download and install **Python 3.10 or higher** from [python.org](https://www.python.org/downloads/).
 
@@ -49,23 +49,6 @@ Verify your installation:
 ```bash
 python3 --version
 ```
-
----
-
-### Step 2 — Install Oracle Instant Client
-
-Oracle Instant Client is required to connect to the legacy Oracle 19c source database.
-
-Download and install the version for your platform:
-
-- **Windows** — [Oracle Instant Client for Windows x64](https://www.oracle.com/in/database/technologies/instant-client/winx64-64-downloads.html)
-- **macOS (Apple Silicon)** — [Oracle Instant Client for macOS ARM64](https://www.oracle.com/database/technologies/instant-client/macos-arm64-downloads.html)
-
-Note the directory where you install it — you will need to set this path as `19C_CLIENT_PATH` in `config.json`.
-
----
-
-### Step 3 — Create a Virtual Environment and Install Dependencies
 
 Create and activate a Python virtual environment, then install all required packages:
 
@@ -86,7 +69,20 @@ pip3 install -r requirements.txt
 
 ---
 
-### Step 4 — Create the Configuration File
+### Step 2 — Install Oracle Instant Client and Configure `config.json`
+
+#### Install Oracle Instant Client
+
+Oracle Instant Client is required to connect to the legacy Oracle source and target database.
+
+Download and install the version for your platform:
+
+- **Windows** — [Oracle Instant Client for Windows x64](https://www.oracle.com/in/database/technologies/instant-client/winx64-64-downloads.html)
+- **macOS (Apple Silicon)** — [Oracle Instant Client for macOS ARM64](https://www.oracle.com/database/technologies/instant-client/macos-arm64-downloads.html)
+
+Note the directory where you install it — you will need to provide this path as `19C_CLIENT_PATH` in `config.json`.
+
+#### Create the Configuration File
 
 Create a `config.json` file in the project root. This file holds all database credentials and runtime settings. It is **never committed to source control**.
 
@@ -111,6 +107,8 @@ Create a `config.json` file in the project root. This file holds all database cr
 }
 ```
 
+Fill in the following fields:
+
 | Key | What It's For |
 |---|---|
 | `19C_USER / PASS / DSN / SCHEMA` | Oracle 19c source database credentials |
@@ -123,9 +121,11 @@ Create a `config.json` file in the project root. This file holds all database cr
 
 ---
 
-## The Graph Model
+### Step 3 — Define and Validate the Graph Model
 
-Everything is driven by `graph_model.json`. This file describes your graph — what the nodes are, what properties they have, where the data comes from in 19c, and how nodes connect to each other.
+Everything is driven by `graph_model.json`. This file describes your graph — which node types exist, which Oracle 19c tables they are sourced from, which columns become vertex properties, and how nodes connect to each other as edges.
+
+The default model covers the core Siebel product catalog entities and is ready to use out of the box. Review it to understand the existing structure, and update it to map any additional source tables into new vertex or edge definitions, including optional row-level filters such as `ACTIVE_FLG = 'Y'`.
 
 ```json
 {
@@ -167,9 +167,9 @@ Everything is driven by `graph_model.json`. This file describes your graph — w
 
 ---
 
-## Script 1 — Migrate Data from Oracle 19c to 26ai
+### Step 4 — Run Script 1: Migrate Data from Oracle 19c to 26ai
 
-`migration_19c_to_26ai.py` handles the full three-step migration pipeline. Every step that touches a database requires your explicit confirmation before proceeding.
+`migration_19c_to_26ai.py` streams relational data from Oracle 19c to Oracle 26ai in configurable batch sizes. It generates DDL for the target schema from the graph model, prompts for explicit confirmation before touching the 26ai database, and upserts data idempotently so migrations can be re-run safely.
 
 ```bash
 python3 OracleGraph/migration_19c_to_26ai.py \
@@ -178,10 +178,12 @@ python3 OracleGraph/migration_19c_to_26ai.py \
   --ddl_output  create_26ai_schema.sql
 ```
 
-### Step 1 — DDL Generation
-Reads the graph model and generates `CREATE TABLE` SQL for each node. Writes the output to `--ddl_output`. No database connection needed at this stage.
+The script runs through three internal stages:
 
-### Step 2 — Schema Apply
+**Stage 1 — DDL Generation**
+Reads the graph model and generates `CREATE TABLE` SQL for each node. Writes the output to `--ddl_output`. No database connection is needed at this stage.
+
+**Stage 2 — Schema Apply**
 Prompts you twice:
 
 - *"Drop all target tables first? Type 'drop' to confirm."*
@@ -189,7 +191,7 @@ Prompts you twice:
 - *"Execute the DDL now? Type 'yes' to approve."*
   Creates the staging tables in 26ai.
 
-### Step 3 — Data Migration
+**Stage 3 — Data Migration**
 Prompts you once:
 
 - *"Migrate data now? Type 'migrate' to approve."*
@@ -202,9 +204,9 @@ If confirmed, it connects to both databases and for each node:
 
 ---
 
-## Script 2 — Generate the Property Graph DDL
+### Step 5 — Run Script 2: Generate the Property Graph DDL
 
-`create_property_graph.py` reads your `graph_model.json` and generates a `CREATE PROPERTY GRAPH` SQL statement. It then asks whether you want to execute it against the 26ai database.
+`create_property_graph.py` reads your `graph_model.json` and generates a `CREATE PROPERTY GRAPH` SQL statement that defines vertex and edge tables, key columns, and label mappings in Oracle 26ai. It outputs a SQL file and optionally executes it against the target database after explicit confirmation.
 
 ```bash
 python3 OracleGraph/create_property_graph.py \
@@ -222,29 +224,45 @@ What happens:
 
 ---
 
-## Script 3 — Run the MCP Server for AI Queries
+### Step 6 — Script 3: Start the MCP Server
 
-`property_graph_mcp.py` starts an MCP server that exposes tools to AI assistants. This lets an AI agent safely inspect the graph schema and run PGQL queries without guessing property names or join keys.
+`property_graph_mcp.py` starts an MCP-compliant server that exposes tools for AI-assisted analysis — including `query`, `schema_vertices`, and `schema_edges`. This lets an AI agent safely inspect the graph schema and run PGQL queries without guessing property names or join keys.
 
 ```bash
 python3 OracleGraph/property_graph_mcp.py
 ```
 
-### Configure the MCP Server in Cline
+Once started, the server exposes the following tools:
 
-Open **Cline → Manage MCP Servers** and add the following configuration. Replace `<Path of project>` with the absolute path to your local project directory.
+| Tool | What It Does |
+|---|---|
+| `query` | Executes a SQL/PGQL query against a named graph using `GRAPH_TABLE(...)` syntax |
+| `schema_vertices` | Lists all vertex labels and their property columns for a graph |
+| `schema_vertices_filter` | Same as above but for a specific subset of vertex labels |
+| `schema_edges` | Lists all edge labels with their source and target join columns |
+| `schema_edges_filter` | Same as above but for a specific subset of edge labels |
 
+The schema tools exist specifically to prevent the AI from inventing property names or using wrong join keys — it always looks up the real schema before writing any query.
+
+---
+
+### Step 7 — Configure the MCP Server and Add the Rules Skill
+
+#### Register the MCP Server in Your MCP Client
+
+The MCP server uses the `stdio` transport and works with any MCP-compatible client — including Cline, Claude Desktop, Cursor, Windsurf, or any other agent that supports the MCP protocol.
+
+Register the server by adding the following block to your client's MCP server configuration. Replace `<Path of project>` with the absolute path to your local project directory.
 ```json
 {
   "mcpServers": {
     "OracleGraphMCP": {
       "autoApprove": [
-        "get_nodetypes_properties",
-        "get_relationshiptypes_properties",
-        "get_vertex_label_details",
-        "get_edge_relationship_details",
-        "get_filtered_vertex_label_details",
-        "run_pgql_query"
+        "query",
+        "schema_vertices",
+        "schema_vertices_filter",
+        "schema_edges",
+        "schema_edges_filter"
       ],
       "disabled": false,
       "timeout": 60,
@@ -258,32 +276,37 @@ Open **Cline → Manage MCP Servers** and add the following configuration. Repla
 }
 ```
 
-Once registered, the assistant can use the following tools:
+Where to add this config in common clients:
 
-| Tool | What It Does |
+| MCP Client | Where to Register |
 |---|---|
-| `query` | Executes a SQL/PGQL query against a named graph using `GRAPH_TABLE(...)` syntax |
-| `schema_vertices` | Lists all vertex labels and their property columns for a graph |
-| `schema_vertices_filter` | Same as above but for a specific subset of vertex labels |
-| `schema_edges` | Lists all edge labels with their source and target join columns |
-| `schema_edges_filter` | Same as above but for a specific subset of edge labels |
+| **Cline** | Cline → Manage MCP Servers |
+| **Claude Desktop** | `claude_desktop_config.json` (Settings → Developer → Edit Config) |
+| **Cursor** | Cursor Settings → MCP Servers → Add Server |
+| **Windsurf** | Windsurf Settings → Cascade → MCP Servers |
+| **Other clients** | Refer to your client's documentation for `mcpServers` config location |
 
-The schema tools exist specifically to prevent the AI from inventing property names or using wrong join keys — it always looks up the real schema before writing any query.
+#### Add `rules.md` as a Skill
 
-### Configure Cline Rules
+`rules.md` contains the domain-specific PGQL rules that keep queries correct — version filtering conventions, `SUB_OBJECT_TYPE_CODE` handling, when to use UNION vs OPTIONAL MATCH, and promotion path patterns. Adding it as a skill ensures the AI generates correct PGQL for Siebel-specific version filtering and traversal patterns on every conversation.
 
-1. Open **Cline → Manage Rules**.
-2. Create a new file called `rules.md`.
-3. Copy the entire contents of `OracleGraph/rules.md` from this project into that file and save it.
+How to add the skill in common clients:
 
-This ensures the AI assistant follows the correct domain rules for PGQL query generation on every conversation.
+| MCP Client | How to Add the Skill |
+|---|---|
+| **Cline** | Cline → Manage Rules → create `rules.md` → paste contents |
+| **Claude Desktop** | Not natively supported — include `rules.md` content in your system prompt |
+| **Cursor** | `.cursor/rules/rules.md` in your project root |
+| **Windsurf** | `.windsurf/rules/rules.md` in your project root, or via Cascade Rules settings |
+| **Other clients** | Add the contents of `rules.md` to the system prompt or rules file your client supports |
+
+Regardless of client, the content to add is always the full text of `OracleGraph/rules.md` from this project.
 
 ---
-### `rules.md`
-Contains the domain-specific PGQL rules that keep queries correct — version filtering conventions, `SUB_OBJECT_TYPE_CODE` handling, when to use UNION vs OPTIONAL MATCH, and promotion path patterns. Must be copied into Cline rules as described above.
 
-### Use Cases
-Contains ready-to-use natural language prompts for common graph analysis tasks including:
+### Step 8 — Query the Graph
+
+Choose your preferred LLM and start a conversation in natural language. The toolkit ships with documented use-case prompts that are ready to use as starting points.
 
 | Sr No | Use Case | Prompt |
 |---|---|---|
@@ -305,12 +328,12 @@ Use these as starting prompts when chatting with the MCP-connected AI assistant.
 ## Typical Workflow
 
 ```
-1.  Edit graph_model.json            → define your nodes and relationships
+1.  Edit graph_model.json            → define and validate your nodes and relationships
 2.  Run migration_19c_to_26ai.py     → migrate schema and data from 19c to 26ai
 3.  Run create_property_graph.py     → generate and apply the property graph DDL
 4.  Run property_graph_mcp.py        → start the MCP server
-5.  Configure MCP in Cline           → register the server and copy rules.md
-6.  Chat with your AI assistant      → use use_case.txt prompts to explore the graph
+5.  Configure MCP in your client     → register the server and add rules.md as a skill
+6.  Choose your LLM and chat         → use use_case.txt prompts to explore the graph
 ```
 
 ---
@@ -323,5 +346,5 @@ Use these as starting prompts when chatting with the MCP-connected AI assistant.
 | `Failed to connect to Oracle 19c` | cx_Oracle thick client not initialised | Set `19C_CLIENT_PATH` in config to your Instant Client directory |
 | `Failed to connect to Oracle 26ai` | Wallet path or credentials incorrect | Verify `26AI_CONFIG_DIR`, `26AI_WALLET_LOCATION`, and `26AI_WALLET_PASSWORD` in config |
 | `ORA-00904: invalid identifier` | Query references a non-existent column | Use `schema_vertices` tool to check real column names before querying |
-| MCP server not found by Cline | Server not running or path incorrect | Check that `command` and `args` paths in the MCP config point to your venv Python and the correct script |
-| Cline not following query rules | `rules.md` not copied into Cline rules | Open Cline → Manage Rules, create `rules.md`, and paste the project `rules.md` content |
+| MCP server not found by client | Server not running or path incorrect | Check that `command` and `args` paths in the MCP config point to your venv Python and the correct script |
+| AI not following query rules | `rules.md` not added as a skill | Add the contents of `OracleGraph/rules.md` to your client's rules or system prompt (see Step 7) |

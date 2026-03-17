@@ -39,6 +39,7 @@ Expected config.json keys:
     26AI_CONFIG_DIR, 26AI_WALLET_LOCATION, 26AI_WALLET_PASSWORD
 """
 
+import argparse
 import json
 import logging
 import re
@@ -386,8 +387,6 @@ def main() -> None:
         --config      : Path to the Oracle credentials config JSON file.
                         Default: config.json
     """
-    import argparse
-
     parser = argparse.ArgumentParser(
         description="Generate an Oracle 26ai CREATE PROPERTY GRAPH DDL from a graph model JSON."
     )

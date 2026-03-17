@@ -78,6 +78,7 @@ Expected graph_model.json structure:
 
 import argparse
 import json
+import logging
 import multiprocessing
 import oracledb
 from pathlib import Path
@@ -94,9 +95,12 @@ DEFAULT_CHUNK_SIZE = 10_000
 # Logging
 # ---------------------------------------------------------------------------
 
-def log(msg: str) -> None:
-    """Print a message to stdout with immediate flush for real-time progress."""
-    print(msg, flush=True)
+logging.basicConfig(
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    level=logging.INFO,
+    handlers=[logging.StreamHandler()],
+)
+log = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
@@ -369,7 +373,7 @@ def connect_target(target_config: Dict):
         An active oracledb connection.
     """
     conn = oracledb.connect(**target_config)
-    log(f"[TARGET] Connected to Oracle 26ai: {conn.version}")
+    log.info(f"[TARGET] Connected to Oracle 26ai: {conn.version}")
     return conn
 
 
@@ -384,14 +388,14 @@ def drop_tables(table_names: List[str], conn) -> None:
         table_names : List of table names to drop.
         conn        : Active oracledb connection to the target database.
     """
-    log("\n-- Dropping tables in 26ai target DB before CREATE --")
+    log.info("\n-- Dropping tables in 26ai target DB before CREATE --")
     with conn.cursor() as cur:
         for tbl in table_names:
             try:
                 cur.execute(f"DROP TABLE {tbl} CASCADE CONSTRAINTS PURGE")
-                log(f"  [OK]   Dropped: {tbl}")
+                log.info(f"  [OK]   Dropped: {tbl}")
             except Exception as e:
-                log(f"  [WARN] Could not drop {tbl} (may not exist): {e}")
+                log.warning(f"  [WARN] Could not drop {tbl} (may not exist): {e}")
 
 
 def execute_ddl_on_target(ddl_sql: str, conn) -> bool:
@@ -409,7 +413,7 @@ def execute_ddl_on_target(ddl_sql: str, conn) -> bool:
     Returns:
         True if all statements succeeded, False if any statement failed.
     """
-    log("\n-- Executing DDL in 26ai target database --")
+    log.info("\n-- Executing DDL in 26ai target database --")
     all_ok = True
 
     with conn.cursor() as cur:
@@ -419,9 +423,9 @@ def execute_ddl_on_target(ddl_sql: str, conn) -> bool:
                 continue
             try:
                 cur.execute(stmt)
-                log(f"  [OK]   {first_line[:80]}")
+                log.info(f"  [OK]   {first_line[:80]}")
             except Exception as e:
-                log(f"  [FAIL] {first_line[:80]}\n         Error: {e}")
+                log.error(f"  [FAIL] {first_line[:80]}\n         Error: {e}")
                 all_ok = False
 
     return all_ok
@@ -503,10 +507,10 @@ def insert_chunk(
         try:
             cur.executemany(dml, chunk)
             conn.commit()
-            log(f"  [CHUNK {chunk_num}] Inserted {len(chunk):,} rows -> {node_name}")
+            log.info(f"  [CHUNK {chunk_num}] Inserted {len(chunk):,} rows -> {node_name}")
         except Exception as e:
             conn.rollback()
-            log(f"  [WARN]  Chunk {chunk_num} failed for '{node_name}': {e}")
+            log.warning(f"  [WARN]  Chunk {chunk_num} failed for '{node_name}': {e}")
 
 
 # ---------------------------------------------------------------------------
@@ -549,7 +553,7 @@ def _stream_worker(
     try:
         oracledb.init_oracle_client(lib_dir=oracle_client_path)
         conn = oracledb.connect(**source_config)
-        log(f"[SOURCE] Connected to Oracle 19c: {conn.version}")
+        log.info(f"[SOURCE] Connected to Oracle 19c: {conn.version}")
     except Exception as e:
         queue.put(("fatal", None, str(e)))
         return
@@ -631,7 +635,7 @@ def stream_and_load(
                 break
 
             if kind == "fatal":
-                log(f"[FATAL] Source connection failed: {msg[2]}")
+                log.critical(f"[FATAL] Source connection failed: {msg[2]}")
                 break
 
             node_name = msg[1]
@@ -651,10 +655,10 @@ def stream_and_load(
                 )
 
             elif kind == "done":
-                log(f"  [DONE] {node_name}: {msg[2]:,} total rows migrated.")
+                log.info(f"  [DONE] {node_name}: {msg[2]:,} total rows migrated.")
 
             elif kind == "error":
-                log(f"  [ERROR] {node_name} fetch failed: {msg[2]}")
+                log.error(f"  [ERROR] {node_name} fetch failed: {msg[2]}")
 
     finally:
         tgt_conn.close()
@@ -687,9 +691,9 @@ def main() -> None:
     All database-touching steps are gated behind interactive prompts and can
     be skipped safely without affecting other steps.
     """
-    log("=" * 70)
-    log("Oracle 19c -> 26ai Property Graph Migration")
-    log("=" * 70)
+    log.info("=" * 70)
+    log.info("Oracle 19c -> 26ai Property Graph Migration")
+    log.info("=" * 70)
 
     # -- CLI & config --------------------------------------------------------
     args        = parse_args()
@@ -727,7 +731,7 @@ def main() -> None:
     }
 
     # -- Step 1: DDL generation ----------------------------------------------
-    log("\n[STEP 1] Generating DDL from graph model ...")
+    log.info("\n[STEP 1] Generating DDL from graph model ...")
     if not graph_model_path.exists():
         raise FileNotFoundError(f"Graph model not found: {graph_model_path}")
 
@@ -736,22 +740,22 @@ def main() -> None:
 
     ddl_sql = generate_ddl(graph_model)
     ddl_output_path.write_text(ddl_sql)
-    #log(ddl_sql)
-    log(f"\n  DDL written to: {ddl_output_path}")
+    #log.info(ddl_sql)
+    log.info(f"\n  DDL written to: {ddl_output_path}")
 
     table_names = [node["name"] for node in graph_model["nodes"]]
 
     # -- Step 2a: Optional DROP ----------------------------------------------
-    log("\n[STEP 2] Schema apply ...")
+    log.info("\n[STEP 2] Schema apply ...")
     if input(
         "Drop ALL target tables in 26ai DB before CREATE? Type 'drop' to confirm: "
     ).strip().lower() == "drop":
-        log("  Connecting to 26ai target DB to drop tables ...")
+        log.info("  Connecting to 26ai target DB to drop tables ...")
         try:
             tgt_conn = connect_target(target_config)
             drop_tables(table_names, tgt_conn)
         except Exception as e:
-            log(f"  [FAIL] Could not connect to 26ai DB for DROP: {e}")
+            log.error(f"  [FAIL] Could not connect to 26ai DB for DROP: {e}")
             return
         finally:
             try:
@@ -763,29 +767,29 @@ def main() -> None:
     if input(
         "Execute the generated DDL in the 26ai target database? Type 'yes' to approve: "
     ).strip().lower() == "yes":
-        log("  Connecting to 26ai target DB to apply DDL ...")
+        log.info("  Connecting to 26ai target DB to apply DDL ...")
         try:
             tgt_conn = connect_target(target_config)
         except Exception as e:
-            log(f"  [FAIL] Could not connect to 26ai DB: {e}")
+            log.error(f"  [FAIL] Could not connect to 26ai DB: {e}")
             return
 
         ok = execute_ddl_on_target(ddl_sql, tgt_conn)
         tgt_conn.close()
 
         if ok:
-            log("\n  [OK] All DDL statements executed successfully.")
+            log.info("\n  [OK] All DDL statements executed successfully.")
         else:
-            log("\n  [WARN] Some DDL statements failed — check output above before migrating data.")
+            log.warning("\n  [WARN] Some DDL statements failed — check output above before migrating data.")
     else:
-        log("  DDL execution skipped.")
+        log.info("  DDL execution skipped.")
 
     # -- Step 3: Data migration ----------------------------------------------
-    log("\n[STEP 3] Data migration ...")
+    log.info("\n[STEP 3] Data migration ...")
     if input(
         "Migrate data from 19c source to 26ai target? Type 'migrate' to approve: "
     ).strip().lower() != "migrate":
-        log("  Data migration skipped.")
+        log.info("  Data migration skipped.")
         return
 
     # Build all SELECT queries in main process — no DB connection needed
@@ -794,11 +798,11 @@ def main() -> None:
         try:
             sql = build_select_sql(node, schema, last_updated_date, last_updated_format)
             queries.append((node["name"], sql))
-            #log(f"  [SQL] {node['name']}: {sql[:120]}")
+            #log.info(f"  [SQL] {node['name']}: {sql[:120]}")
         except Exception as e:
-            log(f"  [WARN] Could not build SQL for '{node['name']}': {e}")
+            log.warning(f"  [WARN] Could not build SQL for '{node['name']}': {e}")
 
-    log(f"\n  Streaming in chunks of {chunk_size:,} rows ...")
+    log.info(f"\n  Streaming in chunks of {chunk_size:,} rows ...")
     stream_and_load(
         source_config      = source_config,
         oracle_client_path = oracle_client_path,
@@ -808,7 +812,7 @@ def main() -> None:
         chunk_size         = chunk_size,
     )
 
-    log("\n[DONE] Migration complete.")
+    log.info("\n[DONE] Migration complete.")
 
 
 if __name__ == "__main__":
