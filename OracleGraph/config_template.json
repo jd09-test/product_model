@@ -12,5 +12,5 @@
     "26AI_WALLET_PASSWORD": "your_wallet_password",
     "QUERY_DATE":        "2024-01-01",
     "DATE_FORMAT":       "YYYY-MM-DD",
-    "BATCH_SIZE":        "500"
+    "BATCH_SIZE":        "10000"
 }
